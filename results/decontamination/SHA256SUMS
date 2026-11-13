@@ -1,0 +1,7 @@
+acf813c424c8c24f9e0a473dc34a8e3ea2cbc5cdb4e86b7e5e6e334203b922ad  arc_easy.decontam.json
+be80d0a7e7c9a6cd341bbe08ba70340ec6fecee0c46a42c23eb73b0384ded5d6  hellaswag.decontam.json
+2a1ee31275b77f8683748b04532b02a2b146ca5b2c8f44cc7c3c2ff4f8527806  lambada_openai.decontam.json
+9b8c3993d6e63099f5ae7e5b89f180d35fe0653caba259f6a9a42a95ba853c19  piqa.decontam.json
+# sft.decontam.json is not in this folder: it is an asset of the v0.1.0 release.
+454d287e5bfca106060d626a0e76f925632a67f0c2db90cd676c1d711164d73d  sft.decontam.json
+f3ef3576318702f1c3ade4085ef3826a0fc1efabae632b30b7810209128647db  winogrande.decontam.json

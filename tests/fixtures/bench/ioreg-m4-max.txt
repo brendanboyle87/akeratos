@@ -1,0 +1,8 @@
++-o AGXAcceleratorG16X  <class AGXAcceleratorG16X, id 0x1000004b4, registered, matched, active, busy 0 (15566 ms), retain 66>
+  | {
+  |   "IOMatchedAtBoot" = Yes
+  |   "model" = "Apple M4 Max"
+  |   "CFBundleIdentifier" = "com.apple.AGXG16X"
+  |   "gpu-core-count" = 40
+  |   "IOClass" = "AGXAcceleratorG16X"
+  | }

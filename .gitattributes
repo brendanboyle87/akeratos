@@ -1,0 +1,16 @@
+# Text files are stored and checked out with LF.
+* text=auto eol=lf
+
+# Binary data: never converted, never diffed as text.
+*.bin binary
+*.npy binary
+*.safetensors binary
+*.parquet binary
+*.arrow binary
+*.png binary
+
+# Receipts are byte-exact: their digests are taken over the committed bytes.
+results/receipts/** -text -diff linguist-generated=true
+
+# Generated files, collapsed in pull-request diffs.
+uv.lock linguist-generated=true

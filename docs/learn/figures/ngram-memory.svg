@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="560" viewBox="0 0 880 560" role="img" aria-labelledby="title desc">
+  <title id="title">How the n-gram memory feeds the model</title>
+  <desc id="desc">At position t, the tokens "the United States" (positions t-2, t-1 and t) are hashed on the CPU into one bigram row and one trigram row of a learned table held in unified memory. The two rows are summed and divided by the square root of 2 to give the table vector. The token's embedding starts the residual stream; the table vector is added to it before every transformer block, scaled by a learned number for each block. After the last block the model outputs next-token logits, one score for each of 49,152 tokens.</desc>
+  <rect x="0" y="0" width="880" height="560" fill="#ffffff"/>
+  <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" fill="#1f2328">
+    <text x="24" y="36" font-size="20" font-weight="700">How the n-gram memory feeds the model</text>
+    <rect x="24" y="60" width="240" height="150" rx="8" fill="#f6f8fa" stroke="#8c959f" stroke-width="1.5"/>
+    <text x="40" y="88" font-size="16" font-weight="700">1. Token ids</text>
+    <rect x="40" y="104" width="46" height="34" rx="6" fill="#ffffff" stroke="#8c959f"/>
+    <rect x="94" y="104" width="70" height="34" rx="6" fill="#ffffff" stroke="#8c959f"/>
+    <rect x="172" y="104" width="66" height="34" rx="6" fill="#fff8c5" stroke="#9a6700" stroke-width="2"/>
+    <text x="63" y="126" font-size="15" text-anchor="middle">the</text>
+    <text x="129" y="126" font-size="15" text-anchor="middle">United</text>
+    <text x="205" y="126" font-size="15" font-weight="700" text-anchor="middle">States</text>
+    <text x="63" y="158" font-size="14" fill="#57606a" text-anchor="middle">t−2</text>
+    <text x="129" y="158" font-size="14" fill="#57606a" text-anchor="middle">t−1</text>
+    <text x="205" y="158" font-size="14" fill="#57606a" text-anchor="middle">t</text>
+    <text x="40" y="192" font-size="14" fill="#57606a">The model is at position t.</text>
+    <rect x="290" y="60" width="264" height="150" rx="8" fill="#f6f8fa" stroke="#8c959f" stroke-width="1.5"/>
+    <text x="306" y="88" font-size="16" font-weight="700">2. Hashed on the CPU</text>
+    <text x="306" y="122" font-size="15"><tspan font-weight="700" fill="#0969da">bigram</tspan> United States</text>
+    <text x="306" y="150" font-size="15"><tspan font-weight="700" fill="#bc4c00">trigram</tspan> the United States</text>
+    <text x="306" y="184" font-size="14" fill="#57606a">Each is mixed into a row number.</text>
+    <polyline points="264,121 279,121" fill="none" stroke="#57606a" stroke-width="2"/>
+    <polygon points="288,121 279,126 279,116" fill="#57606a"/>
+    <rect x="588" y="60" width="268" height="268" rx="8" fill="#f6f1ff" stroke="#8250df" stroke-width="1.5"/>
+    <text x="604" y="88" font-size="16" font-weight="700">3. Table in unified memory</text>
+    <g fill="#e2d6fb">
+      <rect x="604" y="104" width="168" height="7"/>
+      <rect x="604" y="114" width="168" height="7"/>
+      <rect x="604" y="124" width="168" height="7"/>
+      <rect x="604" y="134" width="168" height="7"/>
+      <rect x="604" y="144" width="168" height="7"/>
+      <rect x="604" y="154" width="168" height="7"/>
+      <rect x="604" y="164" width="168" height="7"/>
+      <rect x="604" y="174" width="168" height="7"/>
+      <rect x="604" y="194" width="168" height="7"/>
+      <rect x="604" y="204" width="168" height="7"/>
+      <rect x="604" y="214" width="168" height="7"/>
+      <rect x="604" y="224" width="168" height="7"/>
+      <rect x="604" y="234" width="168" height="7"/>
+      <rect x="604" y="244" width="168" height="7"/>
+      <rect x="604" y="254" width="168" height="7"/>
+      <rect x="604" y="264" width="168" height="7"/>
+    </g>
+    <line x1="600" y1="187.5" x2="776" y2="187.5" stroke="#8250df" stroke-width="1.5" stroke-dasharray="5 4"/>
+    <rect x="604" y="124" width="168" height="7" fill="#0969da"/>
+    <rect x="604" y="234" width="168" height="7" fill="#bc4c00"/>
+    <text x="782" y="138" font-size="14" fill="#57606a">bigram</text>
+    <text x="782" y="156" font-size="14" fill="#57606a">rows</text>
+    <text x="782" y="228" font-size="14" fill="#57606a">trigram</text>
+    <text x="782" y="246" font-size="14" fill="#57606a">rows</text>
+    <text x="604" y="298" font-size="14" fill="#57606a">Billions of learned numbers,</text>
+    <text x="604" y="316" font-size="14" fill="#57606a">trained with the model.</text>
+    <polyline points="554,117 593.2,125.6" fill="none" stroke="#0969da" stroke-width="2"/>
+    <polygon points="602,127.5 592.1,130.5 594.3,120.7" fill="#0969da"/>
+    <polyline points="554,145 597.9,229.5" fill="none" stroke="#bc4c00" stroke-width="2"/>
+    <polygon points="602,237.5 593.4,231.8 602.3,227.2" fill="#bc4c00"/>
+    <polyline points="722,328 722,348" fill="none" stroke="#8250df" stroke-width="2"/>
+    <polygon points="722,357 717,348 727,348" fill="#8250df"/>
+    <rect x="588" y="358" width="268" height="64" rx="8" fill="#f6f1ff" stroke="#8250df" stroke-width="1.5"/>
+    <text x="722" y="384" font-size="16" font-weight="700" text-anchor="middle">4. Table vector</text>
+    <text x="722" y="408" font-size="15" text-anchor="middle">(bigram row + trigram row) / √2</text>
+    <polyline points="588,390 158,390 158,454" fill="none" stroke="#8250df" stroke-width="2"/>
+    <polygon points="158,463 153,454 163,454" fill="#8250df"/>
+    <polyline points="324,390 324,454" fill="none" stroke="#8250df" stroke-width="2"/>
+    <polygon points="324,463 319,454 329,454" fill="#8250df"/>
+    <polyline points="520,390 520,454" fill="none" stroke="#8250df" stroke-width="2"/>
+    <polygon points="520,463 515,454 525,454" fill="#8250df"/>
+    <text x="176" y="358" font-size="14" fill="#57606a">Added before every block,</text>
+    <text x="176" y="376" font-size="14" fill="#57606a">scaled by a learned number per block</text>
+    <polyline points="76,210 76,430" fill="none" stroke="#57606a" stroke-width="2"/>
+    <polygon points="76,439 71,430 81,430" fill="#57606a"/>
+    <rect x="24" y="440" width="104" height="72" rx="8" fill="#f6f8fa" stroke="#8c959f" stroke-width="1.5"/>
+    <text x="76" y="471" font-size="15" font-weight="700" text-anchor="middle">Token</text>
+    <text x="76" y="491" font-size="15" text-anchor="middle">embedding</text>
+    <polyline points="128,476 136,476" fill="none" stroke="#57606a" stroke-width="2"/>
+    <polygon points="145,476 136,481 136,471" fill="#57606a"/>
+    <circle cx="158" cy="476" r="12" fill="#ffffff" stroke="#8250df" stroke-width="2"/>
+    <path d="M151,476 H165 M158,469 V483" stroke="#8250df" stroke-width="2"/>
+    <polyline points="170,476 176,476" fill="none" stroke="#57606a" stroke-width="2"/>
+    <polygon points="185,476 176,481 176,471" fill="#57606a"/>
+    <rect x="186" y="440" width="108" height="72" rx="8" fill="#f6f8fa" stroke="#8c959f" stroke-width="1.5"/>
+    <text x="240" y="464" font-size="15" font-weight="700" text-anchor="middle">Block 1</text>
+    <text x="240" y="483" font-size="14" fill="#57606a" text-anchor="middle">attention,</text>
+    <text x="240" y="501" font-size="14" fill="#57606a" text-anchor="middle">feed-forward</text>
+    <rect x="352" y="440" width="108" height="72" rx="8" fill="#f6f8fa" stroke="#8c959f" stroke-width="1.5"/>
+    <text x="406" y="464" font-size="15" font-weight="700" text-anchor="middle">Block 2</text>
+    <text x="406" y="483" font-size="14" fill="#57606a" text-anchor="middle">attention,</text>
+    <text x="406" y="501" font-size="14" fill="#57606a" text-anchor="middle">feed-forward</text>
+    <rect x="548" y="440" width="108" height="72" rx="8" fill="#f6f8fa" stroke="#8c959f" stroke-width="1.5"/>
+    <text x="602" y="464" font-size="15" font-weight="700" text-anchor="middle">Block L</text>
+    <text x="602" y="483" font-size="14" fill="#57606a" text-anchor="middle">attention,</text>
+    <text x="602" y="501" font-size="14" fill="#57606a" text-anchor="middle">feed-forward</text>
+    <polyline points="294,476 302,476" fill="none" stroke="#57606a" stroke-width="2"/>
+    <polygon points="311,476 302,481 302,471" fill="#57606a"/>
+    <circle cx="324" cy="476" r="12" fill="#ffffff" stroke="#8250df" stroke-width="2"/>
+    <path d="M317,476 H331 M324,469 V483" stroke="#8250df" stroke-width="2"/>
+    <polyline points="336,476 342,476" fill="none" stroke="#57606a" stroke-width="2"/>
+    <polygon points="351,476 342,481 342,471" fill="#57606a"/>
+    <polyline points="460,476 472,476" fill="none" stroke="#57606a" stroke-width="2"/>
+    <text x="483" y="481" font-size="15" font-weight="700" text-anchor="middle">…</text>
+    <polyline points="494,476 498,476" fill="none" stroke="#57606a" stroke-width="2"/>
+    <polygon points="507,476 498,481 498,471" fill="#57606a"/>
+    <circle cx="520" cy="476" r="12" fill="#ffffff" stroke="#8250df" stroke-width="2"/>
+    <path d="M513,476 H527 M520,469 V483" stroke="#8250df" stroke-width="2"/>
+    <polyline points="532,476 538,476" fill="none" stroke="#57606a" stroke-width="2"/>
+    <polygon points="547,476 538,481 538,471" fill="#57606a"/>
+    <polyline points="656,476 664,476" fill="none" stroke="#57606a" stroke-width="2"/>
+    <polygon points="673,476 664,481 664,471" fill="#57606a"/>
+    <rect x="674" y="440" width="182" height="72" rx="8" fill="#f6f8fa" stroke="#8c959f" stroke-width="1.5"/>
+    <text x="765" y="471" font-size="15" font-weight="700" text-anchor="middle">Next-token logits</text>
+    <text x="765" y="493" font-size="14" fill="#57606a" text-anchor="middle">49,152 scores</text>
+    <text x="24" y="544" font-size="14" fill="#57606a">Residual stream: the vector each position carries through the L blocks (8 in the 10M model, 18 in Akeratos Billet's).</text>
+  </g>
+</svg>

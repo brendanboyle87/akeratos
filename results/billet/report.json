@@ -1,0 +1,755 @@
+{
+ "what": "M1's readouts for MetalForge Billet and its twin",
+ "m1": "https://github.com/cogvera-labs/MetalForge/issues/235#issuecomment-6553969708",
+ "analysis sha256": "7876fbb31c28c6b5a082284a3a2693f57acc30476a70b4f5eedc8372617ab85b",
+ "versions": {
+  "python": "3.12.16",
+  "numpy": "2.5.4"
+ },
+ "inputs": {
+  "store/heldout/manifest.json": "fea2cbbc2369d080af232cca1004b5f6d483e3a9c6909a611564986a001b211a",
+  "store/fingerprint.json": "8026a3627bd60f5b830024a73e42da72afb747ed976dc2908009448494895c28",
+  "store/token_bytes.u16": "e4a861c16ceb5841e7c0a9ecf2c21ff337c5be3e3247da9013018dfab8eb349f",
+  "set/manifest.json": "0452397364420859f6a7abd1c61d983dddb964fca43fb26f74cae42d11f11c7d",
+  "billet-final.heldout.json": "f37e2d64f6f6b67bccc6a0201e769150fe55fcb55714d008f70705e3369da37b",
+  "twin-final.heldout.json": "371bc3dbae1fa5de7c66153197c04007e7cdff3c6d86c95267ae17282205c276",
+  "billet-19532.heldout.json": "0b7954259eeced33cec00ac50a47de60d4bffd7afe1ca1873fa281f16cb80237",
+  "twin-19532.heldout.json": "8f4402e86ba250b912d19208c0410f170e8dbf9b88e6588f9bf055df05b96f1b",
+  "reads.npy": "e61f05c2e9fecaa7424dd418a2b8b495a430ad54e36cce97afb16de2b1e57c8e",
+  "overlap.npy": "56b504e10c9231049ec53f9e1c787d4d7c5a4896bbd9d4b96c8b9662eac8681f",
+  "billet.mc.json": "b8912bc5e227032ec55112990c4f3606af38ca2f2134ddf47216826400ebe596",
+  "twin.mc.json": "6377bfa0e7ebd3e5ec8484f228162fee22226b14845f275008d537f08d84e13a",
+  "billet.mc.samples.jsonl": "81f63d92c0a025e9f50f00fd6298a1b33360bbc94fc862cc6d783fc4117c5e38",
+  "twin.mc.samples.jsonl": "f336ecfa5f2ffd6173e51543375671146a4b0f27f1ead9039b77aec81748941d",
+  "billet.metrics.jsonl": "0986f46aaa5764ff8390043358faf25ffc122b06ac0fdf833670feee0572739c",
+  "twin.metrics.jsonl": "38a851536b5e06f439a3c067f3c5a0636791e219c1efd44047451359d0ee03e9",
+  "probe.summary.json": "433dfa519d20372850274fe891b66ca5ed6200900164bbc1430983f4c685bd7e",
+  "billet.s6.json": "c8205b4f7d847790ea0bd1811aad4630fedfe293901c17bb0e034cafface57f6",
+  "twin.s6.json": "adf462bdb78d52bba0e64d4d0cfb44fb7d12307a55423da2391c7a9e9141c2d9",
+  "thirds.npy": "bcfd17279123611adac50ee2d05f0c2e2c7455a0458f5b1f884aabc66497de8e"
+ },
+ "bins": {
+  "first window targets": 5911076,
+  "read-count deciles": {
+   "targets": [
+    764284,
+    762959,
+    763805,
+    763451,
+    763585,
+    763594,
+    763605,
+    763611,
+    763983,
+    763234
+   ],
+   "edges": [
+    897,
+    1537,
+    2675,
+    4828,
+    10060,
+    24319,
+    67962,
+    234887,
+    1218547
+   ]
+  },
+  "13-gram overlap": {
+   "documents": {
+    "none": 2456,
+    "any": 4858,
+    "any, quartile 1": 1215,
+    "any, quartile 2": 1214,
+    "any, quartile 3": 1215,
+    "any, quartile 4": 1214
+   },
+   "documents in none with no 13-gram to find": 0,
+   "share edges": [
+    0.008032128514056224,
+    0.034722222222222224,
+    0.15657620041753653
+   ]
+  },
+  "sha256": "7c630741efd9b1430fbd854cba8fd80598f4d886fe9b2496ab30a0217290c460"
+ },
+ "bar": {
+  "sigma": 0.00108,
+  "4 sigma": 0.00432,
+  "0.01 nats per target": 0.0031688599007791904,
+  "delta": 0.00432
+ },
+ "primary": {
+  "billet_bpb": 0.8866436755725738,
+  "twin_bpb": 0.9030412299110301,
+  "delta": -0.016397554338456258,
+  "ci95": [
+   -0.017199804797134448,
+   -0.01567013068251329
+  ],
+  "resamples left out, no bytes": 0,
+  "interval": "evaluation noise only: 95% percentile interval of 10,000 paired bootstrap resamples of held-out documents",
+  "bytes": 34765120,
+  "band": "the table helps",
+  "status": "read against \u03b4 by M1's bands",
+  "equivalence": {
+   "edge": 0.0018,
+   "claimed": false
+  }
+ },
+ "ema": {
+  "billet_bpb": 0.8866060172347855,
+  "twin_bpb": 0.9031317535510748,
+  "delta": -0.01652573631628924,
+  "ci95": [
+   -0.017333127596630298,
+   -0.015796332677908025
+  ],
+  "resamples left out, no bytes": 0,
+  "interval": "evaluation noise only: 95% percentile interval of 10,000 paired bootstrap resamples of held-out documents",
+  "bytes": 34765120,
+  "band": "the table helps",
+  "status": "read against \u03b4 by M1's bands"
+ },
+ "splits": {
+  "read-count decile 1": {
+   "billet_bpb": 0.8932939556628927,
+   "twin_bpb": 0.9242913869121442,
+   "delta": -0.03099743124925149,
+   "ci95": [
+    -0.032611430700408,
+    -0.02953048317428459
+   ],
+   "resamples left out, no bytes": 0,
+   "interval": "evaluation noise only: 95% percentile interval of 10,000 paired bootstrap resamples of held-out documents",
+   "bytes": 3224457,
+   "status": "described, not tested"
+  },
+  "read-count decile 2": {
+   "billet_bpb": 0.879409178707272,
+   "twin_bpb": 0.9080140948093636,
+   "delta": -0.02860491610209159,
+   "ci95": [
+    -0.029959962297009566,
+    -0.02729401841044013
+   ],
+   "resamples left out, no bytes": 0,
+   "interval": "evaluation noise only: 95% percentile interval of 10,000 paired bootstrap resamples of held-out documents",
+   "bytes": 3268968,
+   "status": "described, not tested"
+  },
+  "read-count decile 3": {
+   "billet_bpb": 0.8707883876217006,
+   "twin_bpb": 0.8938483815625271,
+   "delta": -0.023059993940826487,
+   "ci95": [
+    -0.024220429749018103,
+    -0.021952290695495164
+   ],
+   "resamples left out, no bytes": 0,
+   "interval": "evaluation noise only: 95% percentile interval of 10,000 paired bootstrap resamples of held-out documents",
+   "bytes": 3330629,
+   "status": "described, not tested"
+  },
+  "read-count decile 4": {
+   "billet_bpb": 0.8580753503943112,
+   "twin_bpb": 0.8760908588534906,
+   "delta": -0.018015508459179493,
+   "ci95": [
+    -0.018972668569008127,
+    -0.017085671479123408
+   ],
+   "resamples left out, no bytes": 0,
+   "interval": "evaluation noise only: 95% percentile interval of 10,000 paired bootstrap resamples of held-out documents",
+   "bytes": 3406381,
+   "status": "described, not tested"
+  },
+  "read-count decile 5": {
+   "billet_bpb": 0.8490716433738784,
+   "twin_bpb": 0.8629155113703092,
+   "delta": -0.013843867996430781,
+   "ci95": [
+    -0.014751242049044957,
+    -0.01297977572107031
+   ],
+   "resamples left out, no bytes": 0,
+   "interval": "evaluation noise only: 95% percentile interval of 10,000 paired bootstrap resamples of held-out documents",
+   "bytes": 3560710,
+   "status": "described, not tested"
+  },
+  "read-count decile 6": {
+   "billet_bpb": 0.8488740628147955,
+   "twin_bpb": 0.8604616405787411,
+   "delta": -0.011587577763945511,
+   "ci95": [
+    -0.012471257938186476,
+    -0.010778435544089271
+   ],
+   "resamples left out, no bytes": 0,
+   "interval": "evaluation noise only: 95% percentile interval of 10,000 paired bootstrap resamples of held-out documents",
+   "bytes": 3662537,
+   "status": "described, not tested"
+  },
+  "read-count decile 7": {
+   "billet_bpb": 0.8478608481623208,
+   "twin_bpb": 0.8579585997238267,
+   "delta": -0.010097751561505972,
+   "ci95": [
+    -0.010945392233761259,
+    -0.009297953247728294
+   ],
+   "resamples left out, no bytes": 0,
+   "interval": "evaluation noise only: 95% percentile interval of 10,000 paired bootstrap resamples of held-out documents",
+   "bytes": 3697475,
+   "status": "described, not tested"
+  },
+  "read-count decile 8": {
+   "billet_bpb": 0.8703450181950524,
+   "twin_bpb": 0.879840542906747,
+   "delta": -0.009495524711694526,
+   "ci95": [
+    -0.010244551679221944,
+    -0.00879861796232268
+   ],
+   "resamples left out, no bytes": 0,
+   "interval": "evaluation noise only: 95% percentile interval of 10,000 paired bootstrap resamples of held-out documents",
+   "bytes": 3655633,
+   "status": "described, not tested"
+  },
+  "read-count decile 9": {
+   "billet_bpb": 0.9080102023054187,
+   "twin_bpb": 0.9177921976675485,
+   "delta": -0.009781995362129698,
+   "ci95": [
+    -0.010567721470766848,
+    -0.009044476577072264
+   ],
+   "resamples left out, no bytes": 0,
+   "interval": "evaluation noise only: 95% percentile interval of 10,000 paired bootstrap resamples of held-out documents",
+   "bytes": 3491405,
+   "status": "described, not tested"
+  },
+  "read-count decile 10": {
+   "billet_bpb": 1.0461006698105262,
+   "twin_bpb": 1.0577817295317642,
+   "delta": -0.011681059721237912,
+   "ci95": [
+    -0.012461089120404006,
+    -0.010924136529034461
+   ],
+   "resamples left out, no bytes": 0,
+   "interval": "evaluation noise only: 95% percentile interval of 10,000 paired bootstrap resamples of held-out documents",
+   "bytes": 3466925,
+   "status": "described, not tested"
+  },
+  "first windows": {
+   "billet_bpb": 0.8547185134689693,
+   "twin_bpb": 0.8722895431811748,
+   "delta": -0.017571029712205467,
+   "ci95": [
+    -0.01835988238252502,
+    -0.016846703908089792
+   ],
+   "resamples left out, no bytes": 0,
+   "interval": "evaluation noise only: 95% percentile interval of 10,000 paired bootstrap resamples of held-out documents",
+   "bytes": 27362084,
+   "status": "described, not tested"
+  },
+  "13-gram overlap: none": {
+   "billet_bpb": 0.8948211982816762,
+   "twin_bpb": 0.9027509952888495,
+   "delta": -0.007929797007173379,
+   "ci95": [
+    -0.008380316457597176,
+    -0.0074860230341369845
+   ],
+   "resamples left out, no bytes": 0,
+   "interval": "evaluation noise only: 95% percentile interval of 10,000 paired bootstrap resamples of held-out documents",
+   "bytes": 7129301,
+   "status": "described, not tested"
+  },
+  "13-gram overlap: any": {
+   "billet_bpb": 0.8845340937712337,
+   "twin_bpb": 0.9031161026688139,
+   "delta": -0.018582008897580136,
+   "ci95": [
+    -0.019591758649676574,
+    -0.017672037133940582
+   ],
+   "resamples left out, no bytes": 0,
+   "interval": "evaluation noise only: 95% percentile interval of 10,000 paired bootstrap resamples of held-out documents",
+   "bytes": 27635819,
+   "status": "described, not tested"
+  },
+  "13-gram overlap: any, quartile 1": {
+   "billet_bpb": 0.9200275664999892,
+   "twin_bpb": 0.9296347904424958,
+   "delta": -0.009607223942506588,
+   "ci95": [
+    -0.010311436120387329,
+    -0.008949372576999936
+   ],
+   "resamples left out, no bytes": 0,
+   "interval": "evaluation noise only: 95% percentile interval of 10,000 paired bootstrap resamples of held-out documents",
+   "bytes": 8565650,
+   "status": "described, not tested"
+  },
+  "13-gram overlap: any, quartile 2": {
+   "billet_bpb": 0.8948411060709957,
+   "twin_bpb": 0.9070683946661743,
+   "delta": -0.012227288595178567,
+   "ci95": [
+    -0.012972766448665412,
+    -0.011539979531712053
+   ],
+   "resamples left out, no bytes": 0,
+   "interval": "evaluation noise only: 95% percentile interval of 10,000 paired bootstrap resamples of held-out documents",
+   "bytes": 6955499,
+   "status": "described, not tested"
+  },
+  "13-gram overlap: any, quartile 3": {
+   "billet_bpb": 0.8758166231444272,
+   "twin_bpb": 0.8946954598145499,
+   "delta": -0.018878836670122738,
+   "ci95": [
+    -0.02006663048853765,
+    -0.017732739077583912
+   ],
+   "resamples left out, no bytes": 0,
+   "interval": "evaluation noise only: 95% percentile interval of 10,000 paired bootstrap resamples of held-out documents",
+   "bytes": 6132035,
+   "status": "described, not tested"
+  },
+  "13-gram overlap: any, quartile 4": {
+   "billet_bpb": 0.8306683233493384,
+   "twin_bpb": 0.8691838496968142,
+   "delta": -0.03851552634747576,
+   "ci95": [
+    -0.0427838618114018,
+    -0.03469791419303569
+   ],
+   "resamples left out, no bytes": 0,
+   "interval": "evaluation noise only: 95% percentile interval of 10,000 paired bootstrap resamples of held-out documents",
+   "bytes": 5982635,
+   "status": "described, not tested"
+  }
+ },
+ "pinned": {
+  "billet_bpb": 0.9580364284140724,
+  "twin_bpb": 0.9752886334503285,
+  "delta": -0.017252205036256015,
+  "ci95": [
+   -0.018077268474322512,
+   -0.016490223772874946
+  ],
+  "resamples left out, no bytes": 0,
+  "interval": "evaluation noise only: 95% percentile interval of 10,000 paired bootstrap resamples of held-out documents",
+  "bytes": 34765120,
+  "status": "described, not tested"
+ },
+ "zero_shot": {
+  "tasks": {
+   "piqa": {
+    "items": 1819,
+    "headline": "acc",
+    "billet_acc": 0.6531061022539857,
+    "twin_acc": 0.6597031335898845,
+    "delta_acc": -0.006597031335898846,
+    "delta_acc ci95": [
+     -0.021440351841671246,
+     0.008796041781198461
+    ],
+    "right for Billet only": 90,
+    "right for the twin only": 102,
+    "p": 0.4273545893965867,
+    "gold bpb billet": 1.1035591725261482,
+    "gold bpb twin": 1.10347329793736,
+    "gold bpb delta": 8.5874588788238e-05,
+    "gold bpb delta ci95": [
+     -0.0029574146397978694,
+     0.0030537018155763853
+    ],
+    "interval": "evaluation noise only: 95% percentile interval of 10,000 paired bootstrap resamples of zero-shot items",
+    "margin delta (exploratory)": 0.15460381991526398,
+    "margin delta ci95 (exploratory)": [
+     0.015046312077940662,
+     0.29366214546022207
+    ],
+    "p holm": 1.0,
+    "difference claimed": false
+   },
+   "hellaswag": {
+    "items": 9864,
+    "headline": "acc_norm",
+    "billet_acc": 0.36891727493917276,
+    "twin_acc": 0.3604014598540146,
+    "delta_acc": 0.00851581508515815,
+    "delta_acc ci95": [
+     0.002939983779399838,
+     0.014091646390916463
+    ],
+    "right for Billet only": 437,
+    "right for the twin only": 353,
+    "p": 0.0031224188482163666,
+    "gold bpb billet": 0.9186104391684431,
+    "gold bpb twin": 0.9243209131919154,
+    "gold bpb delta": -0.0057104740234723405,
+    "gold bpb delta ci95": [
+     -0.006536279263525994,
+     -0.004900180633384689
+    ],
+    "interval": "evaluation noise only: 95% percentile interval of 10,000 paired bootstrap resamples of zero-shot items",
+    "margin delta (exploratory)": 0.0030757060407795656,
+    "margin delta ci95 (exploratory)": [
+     0.00214514348352545,
+     0.003985170193225421
+    ],
+    "p holm": 0.015612094241081833,
+    "difference claimed": true
+   },
+   "arc_easy": {
+    "items": 2337,
+    "headline": "acc",
+    "billet_acc": 0.5862216516902011,
+    "twin_acc": 0.5952075310226786,
+    "delta_acc": -0.008985879332477536,
+    "delta_acc ci95": [
+     -0.024390243902439025,
+     0.006418485237483954
+    ],
+    "right for Billet only": 166,
+    "right for the twin only": 187,
+    "p": 0.28709085724027,
+    "gold bpb billet": 1.101856347116074,
+    "gold bpb twin": 1.0970005550794,
+    "gold bpb delta": 0.004855792036674221,
+    "gold bpb delta ci95": [
+     -0.0007493097627533815,
+     0.010733574245745283
+    ],
+    "interval": "evaluation noise only: 95% percentile interval of 10,000 paired bootstrap resamples of zero-shot items",
+    "margin delta (exploratory)": 0.021500715803375703,
+    "margin delta ci95 (exploratory)": [
+     -0.06245041736997393,
+     0.1041062031539016
+    ],
+    "p holm": 1.0,
+    "difference claimed": false
+   },
+   "lambada_openai": {
+    "items": 5146,
+    "headline": "acc",
+    "billet_acc": 0.306645938593082,
+    "twin_acc": 0.306645938593082,
+    "delta_acc": 0.0,
+    "delta_acc ci95": [
+     -0.009327633113097552,
+     0.009133307423241352
+    ],
+    "right for Billet only": 290,
+    "right for the twin only": 290,
+    "p": 1.0,
+    "gold bpb billet": 0.8574848953053603,
+    "gold bpb twin": 0.8614347246803273,
+    "gold bpb delta": -0.0039498293749669275,
+    "gold bpb delta ci95": [
+     -0.011266942045412422,
+     0.0030267500741881503
+    ],
+    "interval": "evaluation noise only: 95% percentile interval of 10,000 paired bootstrap resamples of zero-shot items",
+    "p holm": 1.0,
+    "difference claimed": false
+   },
+   "winogrande": {
+    "items": 1267,
+    "headline": "acc",
+    "billet_acc": 0.5209155485398579,
+    "twin_acc": 0.5185477505919495,
+    "delta_acc": 0.0023677979479084454,
+    "delta_acc ci95": [
+     -0.028413575374901343,
+     0.03393843725335438
+    ],
+    "right for Billet only": 201,
+    "right for the twin only": 198,
+    "p": 0.9202613960724142,
+    "gold bpb billet": 1.1418315747958663,
+    "gold bpb twin": 1.1427515202786271,
+    "gold bpb delta": -0.0009199454827608746,
+    "gold bpb delta ci95": [
+     -0.006331834936331669,
+     0.004562199410168897
+    ],
+    "interval": "evaluation noise only: 95% percentile interval of 10,000 paired bootstrap resamples of zero-shot items",
+    "margin delta (exploratory)": 0.011132114029532826,
+    "margin delta ci95 (exploratory)": [
+     -0.04526184975112999,
+     0.06581019657092854
+    ],
+    "p holm": 1.0,
+    "difference claimed": false
+   }
+  },
+  "family": "Holm over the five tasks at 5% family-wise",
+  "claims": "only the Holm-adjusted McNemar test claims a difference; the other figures are described"
+ },
+ "training_loss": {
+  "units": "nats per token",
+  "status": "described, not tested",
+  "interval": "evaluation noise only: 95% percentile interval of 10,000 paired bootstrap resamples of 50-step moving blocks of steps",
+  "all steps": {
+   "kept": 24415,
+   "left out, batch hashes differ": 0,
+   "left out, missing in an arm": 0,
+   "left out, loss not finite": 0
+  },
+  "windows": {
+   "10%": {
+    "steps": [
+     1441,
+     2440
+    ],
+    "delta": -0.04748161935806274,
+    "ci95": [
+     -0.04791968499422073,
+     -0.046928792452812194
+    ],
+    "kept": 1000,
+    "left out, batch hashes differ": 0,
+    "left out, missing in an arm": 0,
+    "left out, loss not finite": 0
+   },
+   "25%": {
+    "steps": [
+     5103,
+     6102
+    ],
+    "delta": -0.040645421743392945,
+    "ci95": [
+     -0.042520911484956736,
+     -0.03838389886617661
+    ],
+    "kept": 1000,
+    "left out, batch hashes differ": 0,
+    "left out, missing in an arm": 0,
+    "left out, loss not finite": 0
+   },
+   "50%": {
+    "steps": [
+     11207,
+     12206
+    ],
+    "delta": -0.053818411588668826,
+    "ci95": [
+     -0.054672498762607574,
+     -0.052873833656311035
+    ],
+    "kept": 1000,
+    "left out, batch hashes differ": 0,
+    "left out, missing in an arm": 0,
+    "left out, loss not finite": 0
+   },
+   "80%": {
+    "steps": [
+     18532,
+     19531
+    ],
+    "delta": -0.05855576038360596,
+    "ci95": [
+     -0.05945866426825523,
+     -0.057746658873558045
+    ],
+    "kept": 1000,
+    "left out, batch hashes differ": 0,
+    "left out, missing in an arm": 0,
+    "left out, loss not finite": 0
+   },
+   "100%": {
+    "steps": [
+     23415,
+     24414
+    ],
+    "delta": -0.058366137981414795,
+    "ci95": [
+     -0.05870541647076607,
+     -0.057919195401668545
+    ],
+    "kept": 1000,
+    "left out, batch hashes differ": 0,
+    "left out, missing in an arm": 0,
+    "left out, loss not finite": 0
+   }
+  }
+ },
+ "per_mac_hour": {
+  "r": {
+   "pairs_used": 8,
+   "table_first": 4,
+   "table_second": 4,
+   "ratio": 1.0517687839781216,
+   "order_effect": 0.9997008626571214,
+   "ci95": [
+    1.050006854644582,
+    1.0535336698590043
+   ],
+   "df": 6,
+   "t": 2.447,
+   "se_log": 0.0006851698752335854,
+   "rule": "https://github.com/cogvera-labs/MetalForge/issues/235#issuecomment-6543579907",
+   "interval": "the probe rule's 95% t-interval over its block pairs"
+  },
+  "probe checks": {
+   "every_block_exit_3": true,
+   "run_json_as_reference": true,
+   "same_batch_at_each_step": true,
+   "warmup_profile": {
+    "on": {
+     "0": 0.9829,
+     "1": 1.0,
+     "2": 0.9984,
+     "3": 0.9986,
+     "4": 0.9999,
+     "5": 0.9998,
+     "6": 0.9999,
+     "7": 1.0,
+     "8": 1.0006,
+     "9": 0.9997
+    },
+    "off": {
+     "0": 0.9811,
+     "1": 0.9992,
+     "2": 0.998,
+     "3": 0.9993,
+     "4": 0.9999,
+     "5": 1.0004,
+     "6": 1.0008,
+     "7": 1.0011,
+     "8": 1.0015,
+     "9": 1.0018
+    }
+   },
+   "within_block_trend": {
+    "on": -4e-05,
+    "off": -0.00153
+   }
+  },
+  "k": {
+   "k": 1.3887309814412305,
+   "s from": 1500,
+   "s to": 19031,
+   "s used": 9007,
+   "s left out (no s')": 8525,
+   "left out, the twin at or below already at s' = 1,500": 0,
+   "left out, the twin not at or below by s' = 19,031": 8525,
+   "left out, Billet's smoothed loss undefined": 0,
+   "status": "no interval (M1)"
+  },
+  "reading": "the table leads per Mac-hour in the hold"
+ },
+ "memorisation": {
+  "held-out delta": -0.016397554338456258,
+  "status": "described, not tested",
+  "interval": "evaluation noise only: 95% percentile interval of 10,000 paired bootstrap resamples of training documents within each third, and of held-out documents",
+  "exploratory": "each third's delta, the gaps of 'all' and every gap delta, with their intervals: M1 does not name them",
+  "first third": {
+   "documents": 2438,
+   "billet_bpb": 0.8447368252754999,
+   "twin_bpb": 0.8728837434510746,
+   "delta": -0.028146918175574687,
+   "ci95": [
+    -0.029410515940128265,
+    -0.026916066056642582
+   ],
+   "gap billet": -0.04190685029707397,
+   "gap billet ci95": [
+    -0.05186702034765011,
+    -0.03207565812097378
+   ],
+   "gap twin": -0.03015748645995553,
+   "gap twin ci95": [
+    -0.0401459730545297,
+    -0.020236449930890032
+   ],
+   "gap delta": -0.011749363837118443,
+   "gap delta ci95": [
+    -0.01320945447037212,
+    -0.010299316317636989
+   ]
+  },
+  "middle third": {
+   "documents": 2438,
+   "billet_bpb": 0.8213130220040312,
+   "twin_bpb": 0.8670161370542983,
+   "delta": -0.04570311505026703,
+   "ci95": [
+    -0.04729011871395372,
+    -0.04417714317968039
+   ],
+   "gap billet": -0.06533065356854262,
+   "gap billet ci95": [
+    -0.07499968920211464,
+    -0.055319081403858536
+   ],
+   "gap twin": -0.03602509285673183,
+   "gap twin ci95": [
+    -0.04570151243498734,
+    -0.02603432802588275
+   ],
+   "gap delta": -0.029305560711810785,
+   "gap delta ci95": [
+    -0.03104753165031617,
+    -0.027628069425659617
+   ]
+  },
+  "last third": {
+   "documents": 2438,
+   "billet_bpb": 0.792331536519718,
+   "twin_bpb": 0.855005426256891,
+   "delta": -0.06267388973717303,
+   "ci95": [
+    -0.06462039544592851,
+    -0.06092232298940391
+   ],
+   "gap billet": -0.09431213905285585,
+   "gap billet ci95": [
+    -0.10385643809636524,
+    -0.08484026945585535
+   ],
+   "gap twin": -0.048035803654139064,
+   "gap twin ci95": [
+    -0.057702848506388627,
+    -0.0384860812618144
+   ],
+   "gap delta": -0.046276335398716784,
+   "gap delta ci95": [
+    -0.04833565831535305,
+    -0.04431031966948715
+   ]
+  },
+  "all": {
+   "documents": 7314,
+   "billet_bpb": 0.8192599987073014,
+   "twin_bpb": 0.8648916697917103,
+   "delta": -0.04563167108440891,
+   "ci95": [
+    -0.0465788407512928,
+    -0.044705301557525993
+   ],
+   "gap billet": -0.06738367686527247,
+   "gap billet ci95": [
+    -0.07538305003448999,
+    -0.059487399760194924
+   ],
+   "gap twin": -0.0381495601193198,
+   "gap twin ci95": [
+    -0.04610727084729321,
+    -0.030293936694656243
+   ],
+   "gap delta": -0.029234116745952665,
+   "gap delta ci95": [
+    -0.030429655666556657,
+    -0.02802417219654734
+   ]
+  }
+ }
+}

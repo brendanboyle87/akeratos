@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+
+# Tool caches and build output
+.pytest_cache/
+.ruff_cache/
+.coverage*
+htmlcov/
+coverage.xml
+.hypothesis/
+dist/
+build/
+
+# Secrets never live in the repository
+.env*
+
+# Run output stays on your machine
+runs/

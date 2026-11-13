@@ -1,0 +1,169 @@
+[build-system]
+requires = ["uv_build>=0.13.6,<0.14"]
+build-backend = "uv_build"
+
+[project]
+name = "akeratos"
+version = "0.1.0"
+description = "An open lab for training language models on Apple silicon: an MLX-native framework for pretraining memory-augmented language models from scratch."
+readme = "README.md"
+requires-python = ">=3.12"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+keywords = ["mlx", "apple-silicon", "language-models", "pretraining", "unified-memory", "n-gram", "open-science", "reproducibility", "llm", "machine-learning", "deep-learning", "transformer", "macos"]
+authors = [{ name = "Thomas Nicklin" }]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Operating System :: MacOS",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+# Plain `mlx` has no backend on Linux, so Linux installs the `cpu` extra.
+dependencies = [
+    "mlx>=0.32.4,<0.33; sys_platform == 'darwin'",
+    "numpy>=2",
+    "tokenizers>=0.23,<0.24",
+    # Canonical JSON for the digests in run records; pinned, because a digest must not move.
+    "rfc8785==0.1.4",
+]
+
+[project.optional-dependencies]
+# The CPU build of MLX for Linux; it adds nothing on macOS.
+cpu = ["mlx[cpu]>=0.32.4,<0.33; sys_platform == 'linux'"]
+# Reserved; it conflicts with `cpu`.
+cuda13 = ["mlx[cuda13]>=0.32.4,<0.33; sys_platform == 'linux'"]
+eval = ["mlx-lm>=0.32,<0.33", "lm-eval>=0.4.13,<0.5"]
+wandb = ["wandb>=0.30"]
+plot = ["matplotlib>=3.11"]
+
+[project.urls]
+Homepage = "https://github.com/cogvera-labs/akeratos"
+Documentation = "https://github.com/cogvera-labs/akeratos/blob/main/docs/index.md"
+Issues = "https://github.com/cogvera-labs/akeratos/issues"
+Security = "https://github.com/cogvera-labs/akeratos/security/policy"
+Models = "https://huggingface.co/Cogvera-Labs"
+
+[project.scripts]
+bake = "akeratos.cli:main"
+akeratos = "akeratos.cli:main"
+
+[dependency-groups]
+test = [
+    "pytest==9.1.1",
+    "pytest-socket==0.8.1",
+    "pytest-timeout==2.4.0",
+    # The data scripts' tests write a parquet fixture and load the scripts, which import
+    # pyarrow and huggingface_hub; `datasets` brings both.
+    "datasets>=5.1",
+]
+lint = ["ruff==0.16.10"]
+# The default group. `akeratos[cpu]` gives Linux the CPU build of MLX on a plain `uv sync`.
+dev = [
+    { include-group = "test" },
+    { include-group = "lint" },
+    "akeratos[cpu]",
+]
+
+[tool.uv]
+# 0.13.6 is the first uv that can install CPython 3.12.16.
+required-version = ">=0.13.6"
+environments = [
+    "sys_platform == 'darwin' and platform_machine == 'arm64'",
+    "sys_platform == 'linux' and platform_machine == 'x86_64'",
+]
+required-environments = [
+    "sys_platform == 'darwin' and platform_machine == 'arm64'",
+    "sys_platform == 'linux' and platform_machine == 'x86_64'",
+]
+conflicts = [
+    [{ extra = "cpu" }, { extra = "cuda13" }],
+    [{ group = "dev" }, { extra = "cuda13" }],
+]
+
+[tool.uv.sources]
+akeratos = { workspace = true }
+
+[tool.uv.build-backend]
+module-name = "akeratos"
+module-root = ""
+
+# Sockets are off in every test. `timeout` and the two counts are strings: pytest 9.1 refuses numbers.
+[tool.pytest]
+minversion = "9.0"
+strict = true
+testpaths = ["tests"]
+norecursedirs = ["fixtures"]
+markers = ["docs: reads a page under docs/"]
+addopts = ["-ra", "--import-mode=importlib", "--disable-socket", "--allow-unix-socket"]
+pythonpath = ["."]
+filterwarnings = ["error", "ignore:A test tried to use socket:UserWarning:pytest_socket"]
+timeout = "60"
+timeout_method = "signal"
+tmp_path_retention_policy = "failed"
+tmp_path_retention_count = "1"
+
+[tool.ruff]
+required-version = "==0.16.10"
+line-length = 100
+# The two analysis scripts are frozen: their SHA-256 is part of the analysis plan.
+# The data scripts keep the form they had when they built the released store.
+extend-exclude = [
+    "scripts/analysis",
+    "scripts/data",
+]
+
+[tool.ruff.format]
+exclude = ["*.md"]
+quote-style = "double"
+docstring-code-format = true
+
+[tool.ruff.lint]
+preview = false
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "C4", "C90", "N", "PL", "RUF", "S", "PTH", "NPY", "PERF", "PT", "T20", "DTZ", "TID", "PGH", "BLE", "EXE", "D", "ANN"]
+ignore = [
+    "E501",
+    "D105",
+    "D107",
+    "S603",
+    "S607",
+    "PLR0911",
+    "PLR0912",
+    "PLR0913",
+    "PLR0915",
+    "PLR0917",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "PLR2004", "D", "ANN"]
+# A class, function or method has a docstring only where its name and signature do not say
+# what it does. Modules keep their header (D100).
+"akeratos/**" = ["D101", "D102", "D103", "D104"]
+"speedrun/**" = ["D101", "D102", "D103", "D104"]
+"scripts/**" = ["D101", "D102", "D103", "D104"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+# Single-letter names for tensor shapes: `B, T, D = x.shape`.
+[tool.ruff.lint.pep8-naming]
+extend-ignore-names = ["?"]
+
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
+"pickle.load".msg = "unpickling runs arbitrary code; use safetensors or JSON"
+"pickle.loads".msg = "unpickling runs arbitrary code; use safetensors or JSON"
+"os.system".msg = "runs a shell; use subprocess with an argv list"
+"yaml.load".msg = "yaml.load can construct arbitrary objects; use yaml.safe_load"
+"torch.load".msg = "torch.load can unpickle; load weights with safetensors"
+"torch.serialization.load".msg = "torch.load under its module name; load weights with safetensors"
+"joblib.load".msg = "joblib.load unpickles; use safetensors or JSON"
+"yaml.unsafe_load".msg = "constructs arbitrary objects; use yaml.safe_load"
+"yaml.unsafe_load_all".msg = "constructs arbitrary objects; use yaml.safe_load_all"
+"yaml.full_load".msg = "constructs arbitrary objects; use yaml.safe_load"
+"yaml.full_load_all".msg = "constructs arbitrary objects; use yaml.safe_load_all"
+"dill".msg = "dill unpickles arbitrary code; use safetensors or JSON"
+"marshal".msg = "marshal loads code objects; use JSON"
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"

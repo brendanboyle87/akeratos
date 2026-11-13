@@ -1,0 +1,37 @@
+name: Bug report
+description: Something is broken, or a published result does not reproduce.
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you saw, and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: How to reproduce it
+      description: The exact commands, and the commit or release you used.
+      render: shell
+    validations:
+      required: true
+  - type: input
+    id: machine
+    attributes:
+      label: Machine
+      description: Chip, unified memory and macOS version, for example "M4 Max, 128 GB, macOS 26.1". On Linux, say so.
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      description: The output of `uv run bake --version` and `uv run python -c "import mlx.core as mx; print(mx.__version__)"`.
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: The error and the lines before it.
+      render: text

@@ -1,0 +1,59 @@
+{
+  "arms": {
+    "off": {
+      "peak_bytes": 4659416344,
+      "step_s": 0.09811025,
+      "tokens_per_s": 41748.95079987979
+    },
+    "on": {
+      "peak_bytes": 6701273080,
+      "rows_updated": 7298.5,
+      "step_s": 0.1155439375,
+      "table_gbps_estimate": 0.03234122084510059,
+      "tokens_per_s": 35449.71801311443
+    }
+  },
+  "conditions": {
+    "power": [
+      "ac",
+      "ac"
+    ],
+    "thermal_level": [
+      0,
+      0
+    ]
+  },
+  "hardware": {
+    "chip": "Apple M4 Max",
+    "class": "m4-max-40c-48gb-macos26-laptop",
+    "form": "laptop",
+    "gpu_arch": "applegpu_g16s",
+    "gpu_cores": 40,
+    "macos": "26.6.2",
+    "memory_gb": 48,
+    "model": "Mac16,5"
+  },
+  "on_off_ratio": 1.1776948636865159,
+  "person": "BhodiSea",
+  "schema": "metalforge.bench-row/v1",
+  "seconds": 73.641192917,
+  "shape": {
+    "attn_path": "fused",
+    "cache_limit_gib": 2,
+    "preset": "core-10m",
+    "rows": 2,
+    "seed": 0,
+    "seq_len": 2048,
+    "steps": 300,
+    "table_params": 1000000000.0,
+    "version": 1,
+    "warmup_steps": 10
+  },
+  "utc": "2026-11-12T16:46:55Z",
+  "versions": {
+    "commit": null,
+    "metalforge": "0.1.0",
+    "mlx": "0.32.4",
+    "python": "3.12.16"
+  }
+}

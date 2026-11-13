@@ -1,0 +1,71 @@
+{
+  "ai_system": "Claude Code",
+  "batch": {
+    "rows": 4,
+    "seq_len": 2048
+  },
+  "bpb": 1.2748,
+  "build_s": 1.85,
+  "category": "no-table",
+  "claim": "2026-11-08-BhodiSea",
+  "commit": "d92b3d39fae05becf33a6e09b45f5748955c25a4",
+  "conditions": {
+    "power": [
+      "ac",
+      "ac"
+    ],
+    "thermal_level": [
+      0,
+      1
+    ]
+  },
+  "data": {
+    "dataset": "HuggingFaceFW/fineweb-edu@87f09149ef4734204d70ed1d046ddc9ca3f2b8f9",
+    "sha256sums": "sha256:12005f1d933f2c509bf22f7e1ca2b790a234de478ba4dd541ed8a9f851b76239",
+    "store": "9545f2d205efd574",
+    "tokenizer": "HuggingFaceTB/SmolLM2-135M@93efa2f097d58c2a74874c7e644dbc9b0cee75a2"
+  },
+  "eval_s": 21.5,
+  "hardware": {
+    "chip": "Apple M4 Max",
+    "class": "m4-max-40c-48gb-macos26-laptop",
+    "form": "laptop",
+    "gpu_arch": "applegpu_g16s",
+    "gpu_cores": 40,
+    "macos": "26.6.2",
+    "memory_gb": 48,
+    "model": "Mac16,5"
+  },
+  "heldout": {
+    "bytes": 4745219,
+    "doc_mask": false,
+    "docs": 986,
+    "seq_len": 2048,
+    "targets": 1048846
+  },
+  "kind": "record",
+  "metalforge": "0.0.1a1",
+  "mlx": "0.32.3",
+  "peak_bytes": 9664724992,
+  "person": "BhodiSea",
+  "practice": false,
+  "python": "3.12.16",
+  "rerun_of": null,
+  "rules": {
+    "budget_s": 300.0,
+    "warmup_rule": "median",
+    "warmup_steps": 10
+  },
+  "schema": "metalforge.speedrun-receipt/v1",
+  "seed": 1,
+  "steps": 12,
+  "timed_s": 302.58,
+  "tokens": 98304,
+  "train_py": {
+    "sha256": "sha256:895489393454c3cb5792204a422ea2c9cdf148305fdd5a77b16ce11addd8ce56",
+    "source": "\"\"\"A fixture training file: the checker reads only its text and its hash.\"\"\"\n\nROWS = 4\nSEQ_LEN = 2048\n"
+  },
+  "utc_end": "2026-11-08T04:43:02Z",
+  "utc_start": "2026-11-08T04:37:00Z",
+  "warmup_s": 7.954
+}

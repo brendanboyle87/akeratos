@@ -1,0 +1,56 @@
+# Publishes the akeratos distribution to PyPI through Trusted Publishing.
+# Run it by hand from the Actions tab; the `pypi` environment asks for an
+# approval of each run. No PyPI token is stored anywhere.
+name: publish
+
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  publish:
+    name: Build and publish to PyPI
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    environment:
+      name: pypi
+      url: https://pypi.org/project/akeratos/
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # The version is the lowest that pyproject.toml's [tool.uv] required-version
+      # accepts. The cache stays off: a publish job never restores state another
+      # run could have written.
+      - name: Install uv
+        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          version: "0.13.6"
+          enable-cache: false
+
+      - name: Build the sdist and wheel
+        run: uv build
+
+      - name: Smoke-test the wheel
+        run: |
+          uv run --isolated --no-project --python 3.12 --with dist/*.whl akeratos --version
+          uv run --isolated --no-project --python 3.12 --with dist/*.whl bake --version
+          uv run --isolated --no-project --python 3.12 --with dist/*.whl python -m akeratos --version
+
+      # uv publish makes no attestations; this action signs every file with a
+      # PEP 740 attestation under Trusted Publishing. It needs the pattern
+      # pypa/gh-action-pypi-publish@* in the repository's allowed actions.
+      - name: Publish through Trusted Publishing, with attestations
+        uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086 # v1.14.3
+        with:
+          attestations: true
