@@ -33,8 +33,9 @@ REPO, MAIN = ROOT, "origin/main"
 # The rules' numbers follow from S, the sample standard deviation of the held-out bits per byte
 # of the ten reference runs: seeds 0 to 9, No table, on the M4 Max laptop. While S and the
 # reference are None, the page shows the numbers as not set.
-S: float | None = None
-REFERENCE: str | None = None  # `<class>/<claim>` of the reference runs, "reference" on the page
+S: float | None = 0.0203  # rounded to 0.0001
+# `<class>/<claim>` of the reference runs, "reference" on the page
+REFERENCE: str | None = "m4-max-40c-48gb-macos26-laptop/2026-11-13-BhodiSea"
 LOW_S = 0.002  # at or below it, a claim needs 3 runs, not 5
 
 

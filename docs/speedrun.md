@@ -25,7 +25,7 @@ A step is timed from just before `step` to the end of evaluating `arrays()`. The
 
 ## Sending a claim
 
-A claim is one person's runs of one training file at one commit on `main`, seeds 0 upward, at least K. Its score is the mean of seeds 0 to K − 1. It takes the record only by beating it by more than the margin m, and it is unverified until another person's rerun on the same class comes within the tolerance t. K is 5, or 3 when s is at most 0.002; m = 2·s·√(2/K) and t = 3·s·√(2/K), each rounded up to 0.001. s, the standard deviation of ten runs of the reference file, is not set, so a claim needs 5 runs and none takes a record.
+A claim is one person's runs of one training file at one commit on `main`, seeds 0 upward, at least K. Its score is the mean of seeds 0 to K − 1. It takes the record only by beating it by more than the margin m, and it is unverified until another person's rerun on the same class comes within the tolerance t. K is 5, or 3 when s is at most 0.002; m = 2·s·√(2/K) and t = 3·s·√(2/K), each rounded up to 0.001. s, the standard deviation of ten runs of the reference file, is 0.0203, so K is 5, m is 0.026 and t is 0.039.
 
 Send the claim's folder in a pull request, with [the records page](https://github.com/cogvera-labs/akeratos/blob/main/results/speedrun/README.md) rewritten by `uv run python speedrun/records.py --write`. `--check` runs the same checks.
 
