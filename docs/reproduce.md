@@ -41,6 +41,16 @@ uv run --frozen --no-sync bake evaluate --ckpt ~/mf-runs/starter --data ~/mf-spe
 
 The original run last printed a training loss of 4.07 and scores 1.2449 bits per byte on the 7,314 held-out documents Billet is scored on. `--seed N` starts any of the three configurations from another seed.
 
+To read what it writes, export the last checkpoint, with Billet's tokenizer and notice, and prompt it:
+
+```sh
+uv run --frozen --no-sync hf download Cogvera-Labs/Akeratos-Billet tokenizer.json NOTICE --local-dir ~/mf-runs/starter-files
+uv run --frozen --no-sync bake export ~/mf-runs/starter/ckpt-00009156 --out ~/mf-runs/starter-export --tokenizer ~/mf-runs/starter-files/tokenizer.json --licence LICENSE --notice ~/mf-runs/starter-files/NOTICE
+uv run --frozen --no-sync bake generate ~/mf-runs/starter-export --prompt "The capital of France is"
+```
+
+The original run's model answers ` the capital of the world.`, again and again.
+
 ## 2. Build the training data
 
 The data is [FineWeb-Edu](https://huggingface.co/datasets/HuggingFaceFW/fineweb-edu), tokenised with SmolLM2's tokenizer. [`scripts/data/prepare_store.py`](https://github.com/cogvera-labs/akeratos/blob/main/scripts/data/prepare_store.py) builds the store. It pins both inputs, checks every downloaded file against its published hash, never runs downloaded code and never sends a Hugging Face token. It runs in an environment of its own, built from a hash-locked requirements file:
