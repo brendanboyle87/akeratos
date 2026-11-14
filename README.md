@@ -10,7 +10,7 @@ uv sync
 uv run bake bench
 ```
 
-You need an Apple silicon Mac on macOS 14 or later, and [uv](https://docs.astral.sh/uv/). `bake bench` trains a 10M model twice on synthetic tokens, table off and table on, and prints what the table costs per step on your Mac. On the same M4 Max (48 GB) it took 74 seconds and peaked at 6.2 GiB of memory. Smaller Macs are untested: [send your Mac's row](https://github.com/cogvera-labs/akeratos/blob/main/docs/speedrun.md#bake-bench).
+You need an Apple silicon Mac on macOS 14 or later, and [uv](https://docs.astral.sh/uv/) 0.13.6 or newer. `bake bench` trains a 10M model twice on synthetic tokens, table off and table on, and prints what the table costs per step on your Mac. On the same M4 Max (48 GB) it took 74 seconds and peaked at 6.2 GiB of memory. Smaller Macs are untested: [send your Mac's row](https://github.com/cogvera-labs/akeratos/blob/main/docs/speedrun.md#bake-bench).
 
 ## What you can do
 
