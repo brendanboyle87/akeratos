@@ -11,4 +11,4 @@ Two files are never edited, and the report depends on both:
 
 `analysis.py` and `overlap.py` were written under the project's first name, MetalForge, and `overlap.py` imports the package by that name. [`firstname.py`](firstname.py) points that name at the package and runs a script: `uv run --frozen --no-sync python scripts/analysis/firstname.py scripts/analysis/overlap.py --store STORE --out OUT`.
 
-In a report, `m1` is the analysis plan's address in the private repository where I develop Akeratos, as it was under the project's first name, MetalForge. Here it opens nothing; [the plan's page](../../docs/analysis-plan.md) holds its text.
+In a report, `m1` is the analysis plan's address in the private repository where Akeratos is developed, as it was under the project's first name, MetalForge. Here it opens nothing; [the plan's page](../../docs/analysis-plan.md) holds its text.

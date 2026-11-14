@@ -6,15 +6,15 @@ Report a vulnerability privately: open this repository's **Security** tab and ch
 
 Say what you found, how to reproduce it, the commit or release you tested, and what an attacker could do with it.
 
-I am the only maintainer, and nobody else watches the reports.
+Only Cogvera Labs sees a report.
 
 | Step | Target |
 |---|---|
-| I acknowledge your report | 3 working days |
-| I tell you whether I accept it | 10 working days |
-| I update you while a fix is in progress | every 10 working days |
+| Acknowledgement of your report | 3 working days |
+| A decision to accept it or not | 10 working days |
+| Updates while a fix is in progress | every 10 working days |
 
-I fix an accepted report in a private advisory, credit you unless you ask me not to, and publish the advisory with the fix.
+Cogvera Labs fixes an accepted report in a private advisory, credits you unless you ask otherwise, and publishes the advisory with the fix.
 
 ## Supported versions
 
@@ -22,9 +22,9 @@ The latest release on PyPI and the `main` branch. Fixes ship in a new release.
 
 ## Scope
 
-In scope: code that reads untrusted files (checkpoints, safetensors files, exported models, training data); the GitHub Actions workflows; the integrity of what I publish on PyPI and Hugging Face.
+In scope: code that reads untrusted files (checkpoints, safetensors files, exported models, training data); the GitHub Actions workflows; the integrity of what Cogvera Labs publishes on PyPI and Hugging Face; a released model that repeats personal or private text.
 
-Out of scope: what a model writes (open an ordinary issue); flaws in MLX or another upstream project, which go to that project; scanner output with no shown impact; modified forks.
+Out of scope: anything else a model writes (open an ordinary issue); flaws in MLX or another upstream project, which go to that project; scanner output with no shown impact; modified forks.
 
 ## Checking a download
 

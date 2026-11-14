@@ -1,8 +1,8 @@
 # Billet and its twin
 
-I trained one model with a large n-gram table and one without, on the same tokens, and fixed how I would compare them before the second run finished. This page is that comparison.
+Cogvera Labs trained one model with a large n-gram table and one without, on the same tokens, and fixed how to compare them before the second run finished. This page is that comparison.
 
-## What I trained
+## What was trained
 
 - **Billet.** A decoder-only transformer of 162M parameters (18 layers, width 768) with a table of 7,812,500 rows of 768 numbers, 6.0 billion in all. Each position reads the row of its hashed bigram and the row of its hashed trigram. Their sum, divided by √2, is added to the residual stream before every block. [The n-gram memory](learn/n-gram-memory.md) explains it.
 - **Its twin.** The same model and settings with the table off.
@@ -10,11 +10,11 @@ I trained one model with a large n-gram table and one without, on the same token
 - **Runs.** 24,415 steps of 131,072 tokens on one MacBook Pro (M4 Max, 48 GB), with MLX 0.32.3 and the banded attention path. Billet's steps took 107.6 hours in all and its memory peaked at 24.1 GiB; its twin's took 111.1 hours and peaked at 12.4 GiB. The twin's steps may have been the slower ones because the Mac was swapping more during its run: a median of 18 GB of swap in use, against 0.6 GB during Billet's. The timing probe below prices the table with both runs under the same conditions.
 - **Once each.** One seed per model.
 
-The code as trained ships beside each model's weights, as an unedited snapshot. This repository holds the same code, tidied.
+The code as trained ships beside each model's weights, as an unedited snapshot. This repository holds the same code, tidied. A 20-step replay of each run from this repository matches the released training log: every batch hash, and the loss within 0.00005.
 
 ## The rule, fixed first
 
-I posted [the analysis plan](analysis-plan.md) on 1 November 2026 at 05:34 UTC, eight days before the twin's last step. It has not been edited. It says:
+[The analysis plan](analysis-plan.md) was posted on 1 November 2026 at 05:34 UTC, eight days before the twin's last step. It has not been edited. It says:
 
 - Δ is Billet's held-out bits per byte minus its twin's: final checkpoints, raw weights, all 7,314 documents. Below zero, Billet is better.
 - δ, the bar, is the larger of 0.01 nats per token and 4σ, where σ is 0.00108 bits per byte.
@@ -58,6 +58,8 @@ r is how much longer a step takes with the table on: 5.2%. k is how many times m
 
 On text both models trained on, Billet's lead is 0.029 bits per byte larger than on held-out text (interval 0.028 to 0.030). The plan does not name this figure, so it is exploratory.
 
+The plan's learning-rate sweeps, 50M tokens at each of four rates, scored lowest at 3e-2 for both models. The pair stayed at 1e-2, as the plan fixed, and its trigger for a second twin did not fire. The sweeps' logs are not in this repository.
+
 ## Both curves
 
 ![Training loss of Billet and its twin, step by step](https://github.com/cogvera-labs/akeratos/raw/main/results/billet/training-loss.svg)
@@ -66,17 +68,17 @@ Training loss at every step of both runs, from the `metrics.jsonl` each model sh
 
 ## What one seed cannot say
 
-- I trained each model once. The interval above resamples held-out documents. It says how well these two checkpoints are told apart, not what another seed would do.
-- σ is not mine. The plan takes it from another paper's three-seed runs at 135M parameters. I have not measured seed noise at this size.
+- Each model was trained once. The interval above resamples held-out documents. It says how well these two checkpoints are told apart, not what another seed would do.
+- σ is borrowed. The plan takes it from another paper's three-seed runs at 135M parameters. Cogvera Labs has not measured seed noise at this size.
 - One Mac, one dataset, one model size, one table size. Nothing here says what happens at another.
 - The comparison is at equal tokens, not equal time. The table makes each step slower, and only the per-Mac-hour row prices that.
 
 ## What the plan left open
 
-The amendment of 2 November names three things not yet fixed when it was posted: the code that writes each target's table read count, the code that picks the memorisation documents, and the commit of the script that scores a peer model. It says a dated amendment would record each before any Δ was computed, and that a readout without one is reported as not run. I posted no second amendment. The first two were fixed in one commit on 4 November, before the twin finished and a week before any Δ was computed; each output records that commit and its code's SHA-256, and the report lists the outputs. So the read-count and memorisation rows above are run, but nothing on the thread fixed their code in advance: read them as described, with less weight than the rest. The peer model's seed spread was not run. The thread's last entry is the closing note of 10 November, at the end of [the plan's page](analysis-plan.md).
+The amendment of 2 November names three things not yet fixed when it was posted: the code that writes each target's table read count, the code that picks the memorisation documents, and the commit of the script that scores a peer model. It says a dated amendment would record each before any Δ was computed, and that a readout without one is reported as not run. No second amendment was posted. The first two were fixed in one commit on 4 November, before the twin finished and a week before any Δ was computed; each output records that commit and its code's SHA-256, and the report lists the outputs. So the read-count and memorisation rows above are run, but nothing on the thread fixed their code in advance: read them as described, with less weight than the rest. The peer model's seed spread was not run. The thread's last entry is the closing note of 10 November, at the end of [the plan's page](analysis-plan.md).
 
 ## Check it
 
 - [`results/billet/`](https://github.com/cogvera-labs/akeratos/tree/main/results/billet) holds the report these numbers are read from, and the command that writes it.
 - [Reproduce](reproduce.md) rebuilds the data, reruns both models and scores them.
-- If your number differs from mine, open an issue. That is a finding.
+- If your number differs from this page's, open an issue. That is a finding.

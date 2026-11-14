@@ -3,3 +3,6 @@ contact_links:
   - name: Report a security vulnerability
     url: https://github.com/cogvera-labs/akeratos/security/advisories/new
     about: Report vulnerabilities privately, never in a public issue.
+  - name: Ask a question
+    url: https://github.com/cogvera-labs/akeratos/discussions
+    about: Questions go in Discussions.

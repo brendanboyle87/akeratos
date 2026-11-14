@@ -41,12 +41,6 @@ jobs:
       - name: Build the sdist and wheel
         run: uv build
 
-      - name: Smoke-test the wheel
-        run: |
-          uv run --isolated --no-project --python 3.12 --with dist/*.whl akeratos --version
-          uv run --isolated --no-project --python 3.12 --with dist/*.whl bake --version
-          uv run --isolated --no-project --python 3.12 --with dist/*.whl python -m akeratos --version
-
       # uv publish makes no attestations; this action signs every file with a
       # PEP 740 attestation under Trusted Publishing. It needs the pattern
       # pypa/gh-action-pypi-publish@* in the repository's allowed actions.

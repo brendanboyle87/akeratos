@@ -1,8 +1,8 @@
 # Open problems
 
-Questions I want answered and cannot answer alone. Each names the baseline that exists today, the metric, and what counts as an answer. A negative result is an answer: send it.
+Questions Cogvera Labs wants answered and cannot answer alone. Each names the baseline that exists today, the metric, and what counts as an answer. A negative result is an answer: send it.
 
-The metric everywhere is **held-out bits per byte**, which does not depend on the tokenizer. An effect counts only if it is larger than the run-to-run noise at that size. I trained one seed per arm; an answer with two is stronger than mine.
+The metric everywhere is **held-out bits per byte**, which does not depend on the tokenizer. An effect counts only if it is larger than the run-to-run noise at that size. Ten seeds of [the speedrun](docs/speedrun.md)'s reference file, the 10M model trained for 5 minutes, gave a standard deviation of 0.0203 bits per byte. Billet and its twin had one seed each; an answer with two is stronger.
 
 To take one, open a pull request with your result and its logs. [CONTRIBUTING.md](CONTRIBUTING.md) says what to send.
 

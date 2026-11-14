@@ -34,12 +34,12 @@ Run every command from the repository root. `uv run bake bench` checks the setup
 Start with the starter: the 10M model with a table of 1.0B numbers, on 75M tokens of [the speedrun's](speedrun.md) training slice. It goes through the same trainer as Billet and needs no data build.
 
 ```sh
-uv run --frozen --no-sync hf download Cogvera-Labs/Akeratos-Speedrun-5min --repo-type dataset --revision 9991e810db421f586b83b2ea76dfc9be0509b3a4 --local-dir ~/mf-speedrun-5min
+uv run --frozen --no-sync hf download Cogvera-Labs/Akeratos-Speedrun-5min --repo-type dataset --revision 4fadb133baf45efe8dd764c2a172ff92e5ee2482 --local-dir ~/mf-speedrun-5min
 uv run --frozen --no-sync bake train starter --data ~/mf-speedrun-5min/train --out ~/mf-runs/starter
 uv run --frozen --no-sync bake evaluate --ckpt ~/mf-runs/starter --data ~/mf-speedrun-5min/heldout --compute-dtype float32 --records ~/mf-runs/starter/records --out ~/mf-runs/starter/heldout.json
 ```
 
-My run last printed a training loss of 4.07 and scores 1.2449 bits per byte on the 7,314 held-out documents Billet is scored on. `--seed N` starts any of the three configurations from another seed.
+The original run last printed a training loss of 4.07 and scores 1.2449 bits per byte on the 7,314 held-out documents Billet is scored on. `--seed N` starts any of the three configurations from another seed.
 
 ## 2. Build the training data
 
@@ -60,11 +60,11 @@ Keep `--managed-python`: the script refuses a Python that loads extra modules at
 ```
 
 - `check` reads the pinned file lists and the Hub's scan flags, and prints the disk space it needs.
-- `fetch` downloads the 14 Parquet files of `sample/10BT` and the tokenizer at the two pinned commits. It stops on any file the Hub's scanner has not cleared. On 2026-10-19, 13 of the 14 read `unscanned`, and I allowed them by name, with one `--allow-unsafe-file sample/10BT/000_00000.parquet` flag per file, from `000` to `012`.
+- `fetch` downloads the 14 Parquet files of `sample/10BT` and the tokenizer at the two pinned commits. It stops on any file the Hub's scanner has not cleared. On 2026-10-19, 13 of the 14 read `unscanned` and were allowed by name, with one `--allow-unsafe-file sample/10BT/000_00000.parquet` flag per file, from `000` to `012`.
 - `prepare` tokenises offline, in about 18 minutes on the M4 Max, and resumes after a stop.
 - `verify` re-hashes every file and exits 0 when the store matches its manifest.
 
-The store's name is a hash of its inputs, so the same inputs give `9545f2d205efd574`. Mine holds 7,918,559,792 training tokens in 59 shards and 7,643,425 held-out tokens in 7,314 documents, and its `manifest.json` has the SHA-256 `503beba3d802bfc2302d20ed31ceba167e8040e7573e1fad02373ae73fd2ba70`.
+The store's name is a hash of its inputs, so the same inputs give `9545f2d205efd574`. Billet's store holds 7,918,559,792 training tokens in 59 shards and 7,643,425 held-out tokens in 7,314 documents, and its `manifest.json` has the SHA-256 `503beba3d802bfc2302d20ed31ceba167e8040e7573e1fad02373ae73fd2ba70`.
 
 ## 3. Train
 
@@ -93,4 +93,4 @@ It scores the newest checkpoint on every held-out document, in bits per byte, wi
 uv run --frozen --no-sync python -I scripts/analysis/analysis.py --out report.json --heldout ~/mf-runs/billet/heldout.json ~/mf-runs/billet-twin/heldout.json --split ~/mf-data/9545f2d205efd574/heldout
 ```
 
-`report.json` then holds the primary readout, `primary`, to set beside [mine](https://github.com/cogvera-labs/akeratos/blob/main/results/billet/report.json). If your number differs from mine, open an issue: that is a finding.
+`report.json` then holds the primary readout, `primary`, to set beside [the published one](https://github.com/cogvera-labs/akeratos/blob/main/results/billet/report.json). If yours differs, open an issue: that is a finding.

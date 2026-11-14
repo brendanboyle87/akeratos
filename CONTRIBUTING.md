@@ -1,6 +1,6 @@
 # Contributing
 
-Fixes, tests, documentation, speedrun claims and bench rows are welcome. Fork, change, open a pull request. I read every one. Questions go in Discussions.
+Fixes, tests, documentation, speedrun claims and bench rows are welcome. Fork, change, open a pull request. Cogvera Labs reads each one. Questions go in Discussions.
 
 ## Set up and test
 
@@ -15,11 +15,11 @@ Add or change a test that fails without your fix. On Linux MLX runs on the CPU. 
 
 ## What CI checks
 
-CI runs lint, the tests, a package build and a docs build, on Ubuntu, on the CPU. It never runs the Metal kernels. If you change them, say so in the pull request, and I check them on a Mac before I merge.
+CI runs lint, the tests, a package build and a docs build, on Ubuntu, on the CPU. It never runs the Metal kernels. If you change them, say so in the pull request, and Cogvera Labs checks them on a Mac before merging.
 
-## How my own changes arrive
+## How changes from Cogvera Labs arrive
 
-I develop in a private repository, where AI coding agents write most of the code and their checks run. Each change is exported here as one commit. When I merge your pull request here, the same commits are applied there with your name on them.
+Development happens in a private repository, where AI coding agents write most of the code and their checks run. Each change is exported here as one commit. When your pull request is merged here, the same change is applied there with your name on it.
 
 ## A change to the model or its training
 

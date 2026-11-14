@@ -8,9 +8,9 @@ On a typical PC or server, the GPU has its own memory, separate from the CPU's, 
 
 An Apple silicon chip has one pool of memory that the CPU and the GPU share (*unified memory*). Nothing is copied between them, and the GPU can use most of the machine's memory: tens of gigabytes on a laptop, hundreds on a Mac Studio. The trade-off is compute: a Mac's GPU does far fewer calculations per second than a data-centre GPU.
 
-That combination, lots of memory and modest compute, is what Akeratos's design is built around. The [n-gram memory](n-gram-memory.md) costs memory but almost no compute: two table rows per token. A laptop can hold a 12 GB table next to a 150-million-parameter model, while the compute per token stays that of the small model.
+That combination, lots of memory and modest compute, is what Akeratos's design is built around. The [n-gram memory](n-gram-memory.md) costs memory but almost no compute: two table rows per token. A laptop can hold a 12 GB table next to a 162-million-parameter model, while the compute per token stays that of the small model.
 
-Consumer hardware has the memory to hold a lot of knowledge, but not the compute to train ever larger general models, so I work on small, specialised ones.
+Consumer hardware has the memory to hold a lot of knowledge, but not the compute to train ever larger general models, so Cogvera Labs works on small, specialised ones.
 
 Every run so far has been on one MacBook Pro with an M4 Max and 48 GB of memory.
 

@@ -1,8 +1,8 @@
 # Akeratos Billet against its twin
 
-Akeratos Billet was trained with its table on; its twin was trained the same way with the table off. This folder holds what I found when I compared them.
+Akeratos Billet was trained with its table on; its twin was trained the same way with the table off. This folder holds what the comparison found.
 
-- `report.json` is the report that `scripts/analysis/analysis.py` wrote on my Mac from the scored records of both models.
+- `report.json` is the report that `scripts/analysis/analysis.py` wrote from the scored records of both models.
 - `plot.py` draws the training loss of both models on one axis.
 - `training-loss.svg` is the figure `plot.py` draws.
 

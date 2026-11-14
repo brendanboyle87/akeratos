@@ -7,7 +7,7 @@
 Run from the root of a clone of `main`, with your edits to `speedrun/train.py` uncommitted.
 
 ```sh
-uv run --frozen --no-sync hf download Cogvera-Labs/Akeratos-Speedrun-5min --repo-type dataset --revision 9991e810db421f586b83b2ea76dfc9be0509b3a4 --local-dir ~/mf-speedrun-5min
+uv run --frozen --no-sync hf download Cogvera-Labs/Akeratos-Speedrun-5min --repo-type dataset --revision 4fadb133baf45efe8dd764c2a172ff92e5ee2482 --local-dir ~/mf-speedrun-5min
 uv run --frozen --no-sync bake speedrun --data ~/mf-speedrun-5min --claim "$(date -u +%F)-yourhandle" --person yourhandle --ai-system none
 ```
 
@@ -27,8 +27,8 @@ A step is timed from just before `step` to the end of evaluating `arrays()`. The
 
 A claim is one person's runs of one training file at one commit on `main`, seeds 0 upward, at least K. Its score is the mean of seeds 0 to K − 1. It takes the record only by beating it by more than the margin m, and it is unverified until another person's rerun on the same class comes within the tolerance t. K is 5, or 3 when s is at most 0.002; m = 2·s·√(2/K) and t = 3·s·√(2/K), each rounded up to 0.001. s, the standard deviation of ten runs of the reference file, is 0.0203, so K is 5, m is 0.026 and t is 0.039.
 
-Send the claim's folder in a pull request, with [the records page](https://github.com/cogvera-labs/akeratos/blob/main/results/speedrun/README.md) rewritten by `uv run python speedrun/records.py --write`. `--check` runs the same checks.
+Run seeds 0 to K − 1 under one `--claim` name, adding `--seed 1` and so on. Send the claim's folder in a pull request, with [the records page](https://github.com/cogvera-labs/akeratos/blob/main/results/speedrun/README.md) rewritten by `uv run python speedrun/records.py --write`. `--check` runs the same checks.
 
 ## `bake bench`
 
-`uv run bake bench` trains the 10M model on synthetic tokens twice, table off, then on, at the shape [the bench rows page](https://github.com/cogvera-labs/akeratos/blob/main/results/bench/README.md) states. It prints both step times, their ratio, peak memory and the table's estimated bandwidth. It took 74 seconds on an M4 Max. Run it on mains power. `--out results/bench --person HANDLE` writes the row; send it with the page rewritten by `--write`. [The open problem on that cost](https://github.com/cogvera-labs/akeratos/blob/main/OPEN_PROBLEMS.md#the-tables-cost-on-each-mac) asks for rows from other Macs.
+`uv run bake bench` trains the 10M model on synthetic tokens twice, table off, then on, at the shape [the bench rows page](https://github.com/cogvera-labs/akeratos/blob/main/results/bench/README.md) states. It prints both step times, their ratio, peak memory and the table's estimated bandwidth. It took 74 seconds on an M4 Max. Run it on mains power. `--out results/bench --person HANDLE` writes the row; send it with the page rewritten by `uv run python speedrun/records.py --write`. [The open problem on that cost](https://github.com/cogvera-labs/akeratos/blob/main/OPEN_PROBLEMS.md#the-tables-cost-on-each-mac) asks for rows from other Macs.
