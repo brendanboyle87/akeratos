@@ -64,7 +64,7 @@ The plan's learning-rate sweeps, 50M tokens at each of four rates, scored lowest
 
 ![Training loss of Billet and its twin, step by step](https://github.com/cogvera-labs/akeratos/raw/main/results/billet/training-loss.svg)
 
-Training loss at every step of both runs, from the `metrics.jsonl` each model ships with.
+Training loss at every step of both runs, from the `metrics.jsonl` each model ships with. Both bend at step 19,532, where the learning rate starts to fall.
 
 ## What one seed cannot say
 

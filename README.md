@@ -2,7 +2,7 @@
 
 Pretrain a small language model from scratch on your Mac, with [MLX](https://github.com/ml-explore/mlx). On one M4 Max a first model trains in 41 minutes and 6.7 GiB of memory. Billet, a 162M-parameter model with a table of 6.0 billion numbers, trained for four and a half days on that Mac.
 
-Cogvera Labs built Akeratos to test one idea: a very large learned [n-gram table](https://github.com/cogvera-labs/akeratos/blob/main/docs/learn/n-gram-memory.md), held in the Mac's unified memory beside a small transformer. A Mac has modest compute and plenty of memory, and the table costs memory more than compute. Against the same model without it, the table lowers held-out bits per byte from 0.9030 to 0.8866, one seed each: [the result](https://github.com/cogvera-labs/akeratos#the-result).
+Cogvera Labs built Akeratos to test one idea: a very large learned [n-gram table](https://github.com/cogvera-labs/akeratos/blob/main/docs/learn/n-gram-memory.md), held in the Mac's unified memory beside a small transformer. A Mac has modest compute and plenty of memory, and the table costs memory more than compute. Against the same model without it, the table lowers held-out bits per byte from 0.9030 to 0.8866, one seed each, at nearly twice the training memory: [the result](https://github.com/cogvera-labs/akeratos#the-result).
 
 ```sh
 git clone https://github.com/cogvera-labs/akeratos && cd akeratos
@@ -35,6 +35,8 @@ By the rule fixed before the twin finished, the table helps. Each model was trai
 
 ![Training loss of Billet and its twin, step by step](https://github.com/cogvera-labs/akeratos/raw/main/results/billet/training-loss.svg)
 
+The curves nearly coincide at this scale: Billet runs 0.04 to 0.06 nats below its twin. Both bend at step 19,532, where the learning rate starts to fall.
+
 [The result page](https://github.com/cogvera-labs/akeratos/blob/main/docs/billet.md) has every readout and what one seed cannot say. [The analysis plan](https://github.com/cogvera-labs/akeratos/blob/main/docs/analysis-plan.md) is the rule as posted. [`results/billet/`](https://github.com/cogvera-labs/akeratos/tree/main/results/billet) holds the report this number is read from. The weights are on Hugging Face: [Billet](https://huggingface.co/Cogvera-Labs/Akeratos-Billet) and [its twin](https://huggingface.co/Cogvera-Labs/Akeratos-Billet-Twin).
 
 Hashed n-gram tables are not new. [Engram](https://arxiv.org/abs/2601.07372) and the [Over-Tokenized Transformer](https://arxiv.org/abs/2501.16975) hash n-grams into embedding tables, and [DeepSeek-V4.1-Flash](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash) ships 196B parameters of Engram memory. The [modded-nanogpt](https://github.com/KellerJordan/modded-nanogpt) speedrun added a hashed bigram table in its record 62. [The n-gram memory](https://github.com/cogvera-labs/akeratos/blob/main/docs/learn/n-gram-memory.md) names the rest of the work this builds on.
@@ -45,7 +47,7 @@ Hashed n-gram tables are not new. [Engram](https://arxiv.org/abs/2601.07372) and
 - [`akeratos/table/table.py`](https://github.com/cogvera-labs/akeratos/blob/main/akeratos/table/table.py): the table and its sparse update.
 - [`speedrun/train.py`](https://github.com/cogvera-labs/akeratos/blob/main/speedrun/train.py): the whole 10M model, its optimiser and schedule, in one file.
 
-Billet was trained with the banded attention code, not the fused Metal kernels.
+Billet was trained with the banded attention code, and `bake train` still uses it. `bake bench` and the speedrun use the fused Metal kernels where they fit ([the code map](https://github.com/cogvera-labs/akeratos/blob/main/docs/architecture.md)).
 
 ## Open problems
 

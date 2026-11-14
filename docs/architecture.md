@@ -37,5 +37,5 @@ Akeratos targets Apple silicon only, through MLX. This page names the files and 
 ## What runs where
 
 - The table's hashing runs on the CPU, in NumPy. The rest is MLX.
-- A fresh run uses the fused Metal kernels where they fit: on the GPU, in bfloat16, with a head size up to 128. Elsewhere it uses the banded attention path, as Billet and its twin did, and as scoring always does.
+- `bake bench` and the speedrun use the fused Metal kernels where they fit: on the GPU, in bfloat16, with a head size up to 128. `bake train`'s three configurations and scoring use the banded attention path, as Billet and its twin did.
 - The tests run on Linux, on MLX's CPU backend.
