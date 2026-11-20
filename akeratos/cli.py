@@ -8,15 +8,17 @@ held-out bits per byte for a checkpoint (`akeratos/eval/heldout.py`). `bake gene
 greedily from an export (`akeratos/infer.py`). `bake export` writes a checkpoint's release
 folder (`akeratos/export.py`). `bake bench` measures what the table costs per training step
 on this Mac (`akeratos/bench.py`); its handler reads the hardware class, passes macops'
-conditions reader in and caps MLX's buffer cache, all through macops. `bake speedrun` trains the
-model in `speedrun/train.py` for the 5-minute track's 300 s of step time, scores it and writes
-its receipt (`akeratos/speedrun.py`). Each handler imports MLX only when it runs, so
-`bake --help` and `bake --version` never load `mlx.core`.
+conditions reader in and caps MLX's buffer cache, all through macops, then saves the row and says
+where to send it. `bake speedrun` trains the model in `speedrun/train.py` for the 5-minute
+track's 300 s of step time, scores it and writes its receipt (`akeratos/speedrun.py`). Each
+handler imports MLX only when it runs, so `bake --help` and `bake --version` never load
+`mlx.core`.
 """
 
 import argparse
 import importlib
 import json
+import os
 import sys
 from collections.abc import Callable
 from importlib import metadata
@@ -53,6 +55,8 @@ _FROM_FLAGS = {"tokens.budget", "batch.tokens_per_update"}
 # FATAL_CONFIG, a refusal, and DATA_MISMATCH, data that does not match its SHA-256s: an export
 # that does not read back, or slices that differ from their pins.
 EXIT_CONFIG, EXIT_DATA = 78, 22
+# Where a bench row is sent without git.
+BENCH_FORM = "https://github.com/cogvera-labs/akeratos/issues/new?template=bench.yml"
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -229,7 +233,12 @@ def _generate_args(p: argparse.ArgumentParser) -> None:
 
 def _bench_args(p: argparse.ArgumentParser) -> None:
     p.add_argument("--json", action="store_true", help="print the row alone, as JSON")
-    p.add_argument("--out", type=Path, metavar="DIR", help="also write the row into DIR")
+    p.add_argument(
+        "--out",
+        type=Path,
+        metavar="DIR",
+        help="write the row into DIR, such as results/bench (default: this folder)",
+    )
     p.add_argument("--person", metavar="HANDLE", help="the GitHub handle the row credits")
 
 
@@ -304,8 +313,10 @@ def _generate(a: argparse.Namespace) -> str:
 def _bench(a: argparse.Namespace) -> str:
     """`bake bench`: the table's cost per step on this Mac, as a short table or the row as JSON.
 
-    Before the run, which takes minutes, it refuses a person that is not a GitHub handle, a row
-    file that exists and an out folder that cannot be made.
+    It saves the row, into `--out` or else into this folder, and says on stderr where and how to
+    send it. Before the run, which takes minutes, it refuses a person that is not a GitHub handle,
+    this folder if it cannot be written and, with `--out`, a row file that exists and an out
+    folder that cannot be made.
     """
     if a.out is not None and a.person is None:
         raise ConfigError("--out needs --person HANDLE, the GitHub handle the row credits")
@@ -316,16 +327,23 @@ def _bench(a: argparse.Namespace) -> str:
     path = _row_file(a.out, bench.file_name(hardware.key(), metadata.version("mlx")))
     macops.apply_cache_limit(bench.SHAPE.cache_limit_gib * 2**30)  # before the first allocation
     row = bench.run(hardware, macops.read_conditions, SystemClock(), a.person, bench.SHAPE)
-    if path is not None:
-        digest.write_pretty(path, row)
-        sys.stderr.write(f"bench: wrote {path}\n")
+    digest.write_pretty(path, row)
+    if row["conditions"]["power"] != [macops.AC, macops.AC]:
+        send = "the table takes only rows run on mains power: run it again plugged in"
+    elif a.out is None:
+        send = f"paste that file into the bench form to add this Mac to the table: {BENCH_FORM}"
+    else:
+        send = "a pull request that adds that one file to results/bench sends it"
+    sys.stderr.write(f"bench: saved the row in {path}\nbench: {send}\n")
     return digest.pretty(row).rstrip("\n") if a.json else bench.summary(row)
 
 
-def _row_file(out: Path | None, name: str) -> Path | None:
-    """The row's file in `out`, or None without one."""
+def _row_file(out: Path | None, name: str) -> Path:
+    """The row's file in `out`, or in this folder without one, where it replaces an earlier row."""
     if out is None:
-        return None
+        if not os.access(".", os.W_OK):
+            raise ConfigError("this folder cannot be written: run the bench from one that can")
+        return Path(name)
     path = out / name
     if path.exists():
         raise ConfigError(f"{path} exists: a class holds one row per MLX version")

@@ -1,12 +1,14 @@
 # Training a language model on a Mac: the options
 
-Several open projects train or fine-tune language models on an Apple silicon Mac, and each is built for a different job. This page says what each one is for, so you can pick the one that fits. What it says about other projects comes from their own pages, read on 2026-10-29; check them for changes.
+Several open projects train or fine-tune language models on an Apple silicon Mac, and each is built for a different job. This page says what each one is for, so you can pick the one that fits. What it says about other projects comes from their own pages, read on 2026-10-29 (Language Model Builder and autoresearch-mlx on 2026-11-19); check them for changes.
 
 | If you want to | Start with |
 |---|---|
 | Adapt an existing open model to your own data | [mlx-lm fine-tuning](#mlx-lm-fine-tuning) |
 | Train a small chat model from scratch, end to end, on a Mac | [nanochat-mlx](#nanochat-mlx) |
 | Pretrain a standard small model that mlx-lm can load | [mlx-pretrain](#mlx-pretrain) |
+| Use an educational macOS app to "build and chat with a tiny language model, trained on your Mac" | [Language Model Builder](https://github.com/felixrieseberg/language-model-builder) |
+| Run "autonomous AI research loops on Mac, no PyTorch required", in an MLX port of Karpathy's autoresearch | [autoresearch-mlx](https://github.com/trevin-creator/autoresearch-mlx) |
 | Stay in PyTorch, including Engram-style memory experiments | [PyTorch on the Mac's GPU](#pytorch-on-the-macs-gpu) |
 | Train on NVIDIA GPUs, or compare with GPU speedrun records | [modded-nanogpt or nanochat](#built-for-nvidia-gpus-modded-nanogpt-and-nanochat) |
 | Study a large learned n-gram table trained in a Mac's unified memory, against a twin without it | [Akeratos](#akeratos) |

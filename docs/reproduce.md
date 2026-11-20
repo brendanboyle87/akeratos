@@ -4,7 +4,7 @@ These commands rebuild Billet's training data, train Billet and its twin, and sc
 
 ## What you need
 
-- A Mac with Apple silicon and macOS 14.0 or later, the oldest macOS that [MLX supports](https://ml-explore.github.io/mlx/build/html/install.html). Every run so far has been on one MacBook Pro with an M4 Max (40 GPU cores, 48 GB). Smaller Macs are untested.
+- A Mac with Apple silicon and macOS 14.0 or later, the oldest macOS that [MLX supports](https://ml-explore.github.io/mlx/build/html/install.html). Every run so far has been on one MacBook Pro with an M4 Max (40 GPU cores, 48 GB).
 - About 57 GB of free disk to build the data, plus the checkpoints. The data ends as a 28.5 GB download and a 16.4 GB store.
 - [uv](https://docs.astral.sh/uv/) 0.13.6 or newer.
 
@@ -17,6 +17,20 @@ These commands rebuild Billet's training data, train Billet and its twin, and sc
 | The starter | the 10M model with a table of 1.0B numbers | 75M | 41 min | 6.7 GiB |
 
 Peak memory is MLX's own peak reading from the training log, in GiB (2^30 bytes). macOS, your other programs and MLX's buffer cache need memory beside it; `bake train` caps the cache at 3.81 GiB, and at 2 GiB for the starter. [Billet and its twin](billet.md) has more on both runs.
+
+## Your Mac
+
+The other commands, on the same Mac:
+
+| Command | Time | Peak memory |
+|---|---|---|
+| `bake bench` | 74 s | 6.2 GiB |
+| `bake speedrun` | 300 s of steps | 7.6 GiB |
+| `bake generate` on Billet | | 13.0 GiB |
+| `bake evaluate` on Billet's release | 36 min | |
+| `bake evaluate` on the twin's release | 18 min | |
+
+Smaller Macs are untested: [a bench row](https://github.com/cogvera-labs/akeratos/issues/new?template=bench.yml) from yours is wanted.
 
 ## 1. Set up
 
@@ -96,6 +110,15 @@ uv run --frozen --no-sync bake evaluate --ckpt ~/mf-runs/billet --data ~/mf-data
 ```
 
 It scores the newest checkpoint on every held-out document, in bits per byte, with the raw weights and with their moving average. For Billet it also scores the model with the table switched off. Score the twin with the same command and its own folders. `--ckpt` also takes a release folder from Hugging Face, which it checks against its `SHA256SUMS` first.
+
+To check the published scores without training, score the released weights on the held-out split of [the first run's](#a-first-run) download:
+
+```sh
+uv run --frozen --no-sync hf download Cogvera-Labs/Akeratos-Billet --local-dir ~/mf-release/billet
+uv run --frozen --no-sync bake evaluate --ckpt ~/mf-release/billet --data ~/mf-speedrun-5min/heldout --compute-dtype float32 --records ~/mf-release/billet-records --out ~/mf-release/billet-heldout.json
+```
+
+With the raw weights it gives 0.8866 bits per byte, in 36 minutes on the M4 Max. The twin, `Cogvera-Labs/Akeratos-Billet-Twin`, gives 0.9030 in 18.
 
 ## 5. Compare
 

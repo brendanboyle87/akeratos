@@ -4,7 +4,8 @@ A speedrun claim is a folder `results/speedrun/<class>/<claim>/` with one folder
 `seed-<N>/`, holding the `receipt.json` and `metrics.jsonl` that `bake speedrun` wrote there.
 A bench row is one `metalforge.bench-row/v1` JSON file in `results/bench/`, written by
 `bake bench`. `check` and `check_row` hold claims and rows to their rules, and `render` and
-`render_bench` give the two pages. Each page must equal a fresh render.
+`render_bench` give the two pages. Each page must equal a fresh render; with `--page-may-lag`,
+the bench page may leave out rows it does not list yet.
 """
 
 from __future__ import annotations
@@ -675,10 +676,11 @@ def check_row(path: Path) -> list[str]:
     return problems
 
 
-def check_bench(folder: Path, *, page: bool = True) -> list[str]:
+def check_bench(folder: Path, *, page: bool = True, may_lag: bool = False) -> list[str]:
     """Every problem with the rows in `folder` and, if they have none, with its page.
 
-    Each problem is one line, naming its file.
+    Each problem is one line, naming its file. With `may_lag`, the page may leave rows out: it
+    passes if it is the page that the rows it lists give, so a pull request may add a row alone.
     """
     problems: list[str] = []
     for path in _files(folder):
@@ -688,8 +690,12 @@ def check_bench(folder: Path, *, page: bool = True) -> list[str]:
             problems.append(f"{path.name}: only rows (.json) and {PAGE} belong here")
     if page and not problems:
         written = folder / PAGE
-        current = written.is_file() and written.read_text(encoding="utf-8") == render_bench(folder)
-        if not current:
+        text = written.read_text(encoding="utf-8") if written.is_file() else None
+        rows = _rows(folder)
+        if may_lag and text is not None:
+            listed = set(text.splitlines())
+            rows = [row for row in rows if _line(row) in listed]
+        if text != _render_rows(rows):
             problems.append(f"{PAGE}: not the page the rows give; write it with {COMMAND} --write")
     return problems
 
@@ -727,15 +733,30 @@ def _shape_line() -> str:
     )
 
 
-def render_bench(folder: Path) -> str:
-    """The page of the rows in `folder`, which must check out: one table, by chip, then memory."""
+def _line(row: Mapping[str, Any]) -> str:
+    """A row's line in the table."""
+    return f"| {' | '.join(_cells(row))} |"
+
+
+def _rows(folder: Path) -> list[dict[str, Any]]:
+    """The rows in `folder`, which must check out, in the page's order: by chip, then memory."""
     rows = [(p.name, digest.loads(p.read_bytes())) for p in _files(folder) if p.suffix == ".json"]
     rows.sort(key=lambda r: (r[1]["hardware"]["chip"], r[1]["hardware"]["memory_gb"], r[0]))
+    return [row for _, row in rows]
+
+
+def _render_rows(rows: list[dict[str, Any]]) -> str:
+    """The page of `rows`, in their order."""
     if not rows:
         return f"{BENCH_INTRO}\n{_shape_line()}\nNo rows yet.\n"
     lines = [f"| {' | '.join(COLUMNS)} |", f"|{'---|' * len(COLUMNS)}"]
-    lines += [f"| {' | '.join(_cells(row))} |" for _, row in rows]
+    lines += [_line(row) for row in rows]
     return f"{BENCH_INTRO}\n{_shape_line()}\n" + "\n".join(lines) + "\n"
+
+
+def render_bench(folder: Path) -> str:
+    """The page of the rows in `folder`, which must check out: one table, by chip, then memory."""
+    return _render_rows(_rows(folder))
 
 
 def main(argv: list[str]) -> int:
@@ -750,10 +771,18 @@ def main(argv: list[str]) -> int:
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument("--check", action="store_true", help="check the folders and the pages")
     mode.add_argument("--write", action="store_true", help="write the pages from the folders")
+    parser.add_argument(
+        "--page-may-lag",
+        action="store_true",
+        help="with --check, the bench page may leave out rows it does not list yet",
+    )
     a = parser.parse_args(argv)
+    if a.page_may_lag and not a.check:
+        parser.error("--page-may-lag goes with --check")
+    lag = functools.partial(check_bench, may_lag=a.page_may_lag)
     pages: tuple[tuple[str, Path, Callable[..., list[str]], Callable[[Path], str]], ...] = (
         ("results/speedrun", SPEEDRUN, check, render),
-        ("results/bench", BENCH, check_bench, render_bench),
+        ("results/bench", BENCH, lag, render_bench),
     )
     problems = [
         f"{label}/{p}" for label, folder, test, _ in pages for p in test(folder, page=a.check)

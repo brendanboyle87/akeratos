@@ -1,0 +1,16 @@
+name: Bench row
+description: Cogvera Labs commits the row from `uv run bake bench` to results/bench/ under your GitHub handle.
+title: "Bench row: "
+labels: ["bench"]
+body:
+  - type: textarea
+    id: row
+    attributes:
+      label: The row
+      description: Paste the JSON file the bench saved. If the run failed, leave this empty.
+      render: json
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything to know
+      description: Other programs running, an external display, or what a failed run printed. A failed run on a small Mac is a result too.

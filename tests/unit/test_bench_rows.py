@@ -1,7 +1,9 @@
 """The bench rows in `results/bench/` and their page.
 
 `speedrun/records.py`, loaded by path, checks every row and renders `results/bench/README.md`
-from them; the real folder must check out. A good row, built here from `bench.SHAPE` with
+from them; the real folder must check out, with a page that may lag by rows it does not list
+yet. A page that lags passes only under `may_lag`, and one that is not the render of the rows it
+lists fails under both. A good row, built here from `bench.SHAPE` with
 made-up measurements and a made-up time, passes, and each bad variant of it is refused for its
 one fault. Its command line runs on a temporary folder. A row from a tiny bench on MLX's CPU
 device passes every check but the shape, which is the test's own, so the bench writes what the
@@ -62,7 +64,8 @@ def write(folder: Path, row: dict[str, Any], text: str | None = None, name: str 
 
 
 def test_the_rows_in_results_bench_and_their_page_check_out() -> None:
-    assert records.check_bench(BENCH) == []
+    # The page may lag, so that a pull request may add one row file and nothing else.
+    assert records.check_bench(BENCH, may_lag=True) == []
 
 
 def test_a_good_row_and_its_page_check_out(tmp_path) -> None:
@@ -171,14 +174,22 @@ def test_a_stale_page_and_a_stray_file_are_refused(tmp_path) -> None:
     ]
 
 
-def test_the_page_lists_the_rows_by_chip_then_memory(tmp_path) -> None:
-    # Classes made up from M4_MAX, for the order alone: by file name, 128gb would come before
-    # 48gb; by memory first, the M2 Ultra's 192 GB would come last.
+def three_rows() -> list[dict[str, Any]]:
+    """Rows of classes made up from M4_MAX, for the order alone.
+
+    By file name, 128gb would come before 48gb; by memory first, the M2 Ultra's 192 GB would
+    come last.
+    """
     rows = [good_row(), good_row(), good_row()]
     rows[1]["hardware"] = M4_MAX._replace(memory_gb=128).describe()
     rows[2]["hardware"] = M4_MAX._replace(
         chip="Apple M2 Ultra", gpu_cores=76, memory_gb=192, form="desktop"
     ).describe()
+    return rows
+
+
+def test_the_page_lists_the_rows_by_chip_then_memory(tmp_path) -> None:
+    rows = three_rows()
     names = [write(tmp_path, row).name for row in rows]
     assert sorted(names) == [names[2], names[1], names[0]]
     page = records.render_bench(tmp_path)
@@ -195,6 +206,52 @@ def test_the_page_lists_the_rows_by_chip_then_memory(tmp_path) -> None:
     assert "No rows yet." not in page
 
 
+def lagging_page(folder: Path) -> str:
+    """The page of the three rows' first two, with the third written after it."""
+    first, second, third = three_rows()
+    write(folder, first)
+    write(folder, second)
+    page = records.render_bench(folder)
+    write(folder, third)
+    return page
+
+
+def test_a_page_that_lags_by_a_row_passes_only_when_it_may_lag(tmp_path) -> None:
+    page = lagging_page(tmp_path)
+    (tmp_path / "README.md").write_text(page, encoding="utf-8")
+    assert records.check_bench(tmp_path) == [STALE]
+    assert records.check_bench(tmp_path, may_lag=True) == []
+
+
+def test_a_page_with_no_rows_lags_by_one(tmp_path) -> None:
+    page = records.render_bench(tmp_path)
+    write(tmp_path, good_row())
+    (tmp_path / "README.md").write_text(page, encoding="utf-8")
+    assert records.check_bench(tmp_path, may_lag=True) == []
+
+
+def no_file(lines: list[str], folder: Path) -> list[str]:
+    """A line for a row that has no file: the 48 GB row's, after its file is gone."""
+    (folder / NAME).unlink()
+    return lines
+
+
+EDITS: dict[str, Callable[[list[str], Path], list[str]]] = {
+    "an edited cell": lambda lines, _: [line.replace("| 81.2 |", "| 71.2 |") for line in lines],
+    "a line for a row with no file": no_file,
+    "rows out of order": lambda lines, _: [*lines[:-2], lines[-1], lines[-2]],
+}
+
+
+@pytest.mark.parametrize("change", list(EDITS))
+def test_a_page_that_is_not_a_render_of_the_rows_it_lists_fails_even_when_it_may_lag(
+    tmp_path, change
+) -> None:
+    lines = lagging_page(tmp_path).splitlines(keepends=True)
+    (tmp_path / "README.md").write_text("".join(EDITS[change](lines, tmp_path)), encoding="utf-8")
+    assert records.check_bench(tmp_path, may_lag=True) == [STALE]
+
+
 def test_check_and_write_run_on_the_rows_folder(tmp_path, monkeypatch, capsys) -> None:
     rows, speedrun = tmp_path / "bench", tmp_path / "speedrun"
     speedrun.mkdir()
@@ -209,6 +266,13 @@ def test_check_and_write_run_on_the_rows_folder(tmp_path, monkeypatch, capsys) -
     assert page.read_text(encoding="utf-8") == records.render_bench(rows)
     assert records.main(["--check"]) == 0
     written = page.read_text(encoding="utf-8")
+    later = good_row()
+    later["hardware"] = M4_MAX._replace(memory_gb=128).describe()
+    path = write(rows, later)
+    assert records.main(["--check"]) == 1  # the page lags by a row
+    assert capsys.readouterr().err == f"results/bench/{STALE}\n"
+    assert records.main(["--check", "--page-may-lag"]) == 0
+    path.unlink()
     bad = good_row()
     bad["hardware"] = M4_MAX._replace(memory_gb=128).describe()
     edit("conditions.power", ["ac", "battery"])(bad)
@@ -226,3 +290,10 @@ def test_a_row_from_the_bench_passes_every_check_but_its_test_shape(tmp_path) ->
     row, _ = tiny_row()
     path = write(tmp_path, row)
     assert records.check_bench(tmp_path, page=False) == [f"{path.name}: {UNKNOWN_SHAPE}"]
+
+
+def test_page_may_lag_goes_only_with_check(capsys) -> None:
+    with pytest.raises(SystemExit) as stop:
+        records.main(["--write", "--page-may-lag"])
+    assert stop.value.code == 2
+    assert "--page-may-lag goes with --check" in capsys.readouterr().err

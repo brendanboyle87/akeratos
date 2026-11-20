@@ -1,7 +1,9 @@
 """This repository's own results/speedrun/ and results/bench/ check out, pages included.
 
-`speedrun/records.py --check`, loaded by path, runs on the real folders: every claim and bench
-row keeps its rules, and each page equals a fresh render. The check asks git whether a receipt's
+`speedrun/records.py --check --page-may-lag`, loaded by path, runs on the real folders: every
+claim and bench row keeps its rules, and each page equals a fresh render, except that the bench
+page may leave out rows it does not list yet. So a pull request may add one bench row file
+alone, and `--write` brings the page up to date later. The check asks git whether a receipt's
 commit is on `origin/main`. Only a clone with its whole history can answer that, so in a shallow
 clone or a downloaded archive this test takes each commit as on main and checks the rest. CI
 clones the whole history and checks the commits too.
@@ -41,5 +43,5 @@ def test_the_real_results_and_both_pages_check_out(
 ) -> None:
     if not _knows_main(records.REPO) and "CI" not in os.environ:
         monkeypatch.setattr(records, "_on_main", lambda repo, main, commit: True)
-    assert records.main(["--check"]) == 0
+    assert records.main(["--check", "--page-may-lag"]) == 0
     assert capsys.readouterr().err == ""

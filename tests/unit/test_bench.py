@@ -178,6 +178,7 @@ ARM = {"step_s": 0.0812, "tokens_per_s": 50443.3, "peak_bytes": 6 * 2**30}
 ROW: dict[str, Any] = {
     "hardware": {"class": "m4-max-40c-48gb-macos26-laptop"},
     "versions": {"mlx": "0.32.3"},
+    "conditions": {"power": ["ac", "ac"], "thermal_level": [0, 0]},
     "arms": {
         "off": ARM,
         "on": {**ARM, "step_s": 0.1218, "rows_updated": 7987.5, "table_gbps_estimate": 0.0336},
@@ -193,10 +194,18 @@ SUMMARY = (
 )
 
 
+FILE = bench.file_name(M4_MAX.key(), metadata.version("mlx"))
+FORM = "https://github.com/cogvera-labs/akeratos/issues/new?template=bench.yml"
+
+
 @pytest.fixture
-def calls(monkeypatch) -> list[tuple[Any, ...]]:
-    """What `bake bench` asks of macops and of the bench, which give M4_MAX and ROW."""
+def calls(monkeypatch, tmp_path) -> list[tuple[Any, ...]]:
+    """What `bake bench` asks of macops and of the bench, which give M4_MAX and ROW.
+
+    It runs in an empty folder, `tmp_path`, where a bench without `--out` saves its row.
+    """
     seen: list[tuple[Any, ...]] = []
+    monkeypatch.chdir(tmp_path)
     monkeypatch.setenv("MLX_ENABLE_TF32", "0")  # MLX is imported already, with TF32 off
 
     def fake_run(*args: Any) -> dict[str, Any]:
@@ -224,6 +233,47 @@ def test_bake_bench_caps_the_cache_then_runs_the_bench_and_prints_a_table(calls,
     assert isinstance(clock, SystemClock)
 
 
+def test_without_out_the_row_is_saved_here_and_stderr_names_the_form(
+    calls, capsys, tmp_path
+) -> None:
+    (tmp_path / FILE).write_text("an earlier row", encoding="utf-8")
+    assert cli.main(["bench"]) == 0
+    assert (tmp_path / FILE).read_text(encoding="utf-8") == digest.pretty(ROW)
+    assert capsys.readouterr().err == (
+        f"bench: saved the row in {FILE}\n"
+        f"bench: paste that file into the bench form to add this Mac to the table: {FORM}\n"
+    )
+
+
+@pytest.mark.parametrize("power", [["ac", "battery"], ["battery", "ac"]], ids=["end", "start"])
+@pytest.mark.parametrize("out", [False, True], ids=["here", "out"])
+def test_a_row_not_run_on_mains_says_to_run_it_again_plugged_in(
+    calls, capsys, monkeypatch, tmp_path, out, power
+) -> None:
+    monkeypatch.setitem(ROW, "conditions", {"power": power, "thermal_level": [0, 0]})
+    folder = tmp_path / "bench"
+    assert (
+        cli.main(["bench", *(["--out", str(folder), "--person", "BhodiSea"] if out else [])]) == 0
+    )
+    path = folder / FILE if out else Path(FILE)
+    assert path.read_text(encoding="utf-8") == digest.pretty(ROW)
+    assert capsys.readouterr().err == (
+        f"bench: saved the row in {path}\n"
+        "bench: the table takes only rows run on mains power: run it again plugged in\n"
+    )
+
+
+def test_a_folder_that_cannot_be_written_is_refused_before_the_run(
+    calls, capsys, monkeypatch
+) -> None:
+    monkeypatch.setattr(cli.os, "access", lambda path, mode: False)
+    assert cli.main(["bench"]) == 78
+    assert capsys.readouterr().err == (
+        "configuration error: this folder cannot be written: run the bench from one that can\n"
+    )
+    assert calls == []
+
+
 def test_json_prints_the_row_alone_once(calls, capsys) -> None:
     assert cli.main(["bench", "--json", "--person", "BhodiSea"]) == 0
     assert capsys.readouterr().out == digest.pretty(ROW)  # one final newline, pretty's own
@@ -233,9 +283,12 @@ def test_json_prints_the_row_alone_once(calls, capsys) -> None:
 def test_out_writes_the_row_and_refuses_a_file_that_exists(calls, capsys, tmp_path) -> None:
     argv = ["bench", "--out", str(tmp_path / "bench"), "--person", "BhodiSea"]
     assert cli.main(argv) == 0
-    path = tmp_path / "bench" / bench.file_name(M4_MAX.key(), metadata.version("mlx"))
+    path = tmp_path / "bench" / FILE
     assert path.read_text(encoding="utf-8") == digest.pretty(ROW)
-    assert f"bench: wrote {path}\n" in capsys.readouterr().err
+    assert capsys.readouterr().err == (
+        f"bench: saved the row in {path}\n"
+        "bench: a pull request that adds that one file to results/bench sends it\n"
+    )
     runs = len(calls)
     assert cli.main(argv) == 78
     assert capsys.readouterr().err == (
