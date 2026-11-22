@@ -63,7 +63,7 @@ def _entry_points(whl) -> dict[str, str]:
 def test_only_product_package(wheels) -> None:
     _, names = _metadata(wheels["akeratos"])
     tops = {n.split("/")[0] for n in names}
-    assert tops == {"akeratos", "akeratos-0.1.0.dist-info"}, tops
+    assert tops == {"akeratos", "akeratos-0.1.1.dist-info"}, tops
 
 
 def test_requires_python_is_floor(wheels) -> None:
@@ -117,4 +117,4 @@ def test_licence_agrees(root, pyproject, wheels) -> None:
     assert "Version 2.0" in text
     meta, names = _metadata(wheels["akeratos"])
     assert meta["License-Expression"] == licence
-    assert "akeratos-0.1.0.dist-info/licenses/LICENSE" in names
+    assert "akeratos-0.1.1.dist-info/licenses/LICENSE" in names

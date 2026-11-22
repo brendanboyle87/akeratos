@@ -4,16 +4,19 @@ build-backend = "uv_build"
 
 [project]
 name = "akeratos"
-version = "0.1.0"
-description = "An open lab for training language models from scratch on Apple silicon Macs with MLX."
+version = "0.1.1"
+description = "Pretrain a small language model from scratch on your Mac with MLX."
 readme = "README.md"
 requires-python = ">=3.12"
 license = "Apache-2.0"
 license-files = ["LICENSE"]
-keywords = ["mlx", "apple-silicon", "language-models", "pretraining", "unified-memory", "n-gram", "open-science", "reproducibility", "llm", "machine-learning", "deep-learning", "transformer", "macos"]
+keywords = ["mlx", "apple-silicon", "mac", "macos", "pretraining", "from-scratch", "language-models", "small-language-models", "llm", "transformer", "n-gram", "speedrun", "unified-memory", "open-science", "reproducibility"]
 authors = [{ name = "Thomas Nicklin" }]
 classifiers = [
     "Development Status :: 3 - Alpha",
+    "Environment :: GPU",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
     "Intended Audience :: Science/Research",
     "Operating System :: MacOS",
     "Programming Language :: Python :: 3",
@@ -41,9 +44,12 @@ plot = ["matplotlib>=3.11"]
 [project.urls]
 Homepage = "https://github.com/cogvera-labs/akeratos"
 Documentation = "https://github.com/cogvera-labs/akeratos/blob/main/docs/index.md"
+"Release notes" = "https://github.com/cogvera-labs/akeratos/releases"
+Citation = "https://doi.org/10.5281/zenodo.24211848"
 Issues = "https://github.com/cogvera-labs/akeratos/issues"
 Security = "https://github.com/cogvera-labs/akeratos/security/policy"
 Models = "https://huggingface.co/Cogvera-Labs"
+Dataset = "https://huggingface.co/datasets/Cogvera-Labs/Akeratos-Speedrun-5min"
 
 [project.scripts]
 bake = "akeratos.cli:main"

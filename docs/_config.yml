@@ -1,6 +1,6 @@
 # GitHub Pages settings for the documentation site, built from this folder.
 title: Akeratos
-description: An open lab for training language models from scratch on Apple silicon Macs with MLX.
+description: Pretrain a small language model from scratch on your Mac with MLX.
 url: https://cogvera-labs.github.io
 baseurl: /akeratos
 plugins:

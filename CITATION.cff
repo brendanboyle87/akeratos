@@ -1,16 +1,16 @@
 cff-version: 1.2.0
 message: "If you use Akeratos, its models or its results, please cite it as below."
-title: "Akeratos: an open lab for training language models on Apple silicon"
-abstract: "An open lab for training language models from scratch on Apple silicon Macs with MLX. Open code, data recipes, weights, logs and receipts."
+title: "Akeratos: pretrain small language models from scratch on a Mac with MLX"
+abstract: "Pretrain a small language model from scratch on your Mac with MLX. The starter model trains in 41 minutes and 6.7 GiB on an M4 Max. Billet, a 162M-parameter transformer with a learned n-gram table of 6.0 billion numbers, scores 0.8866 held-out bits per byte (lower is better) against 0.9030 for the same model without the table, one seed each. Open code, data recipes, weights, training logs and a 5-minute Mac speedrun."
 type: software
 authors:
   - given-names: "Thomas"
     family-names: "Nicklin"
     affiliation: "Cogvera Labs"
     orcid: "https://orcid.org/0009-0006-6658-6560"
-version: "0.1.0"
+version: "0.1.1"
 doi: 10.5281/zenodo.24211848
-date-released: "2026-11-14"
+date-released: "2026-11-22"
 license: Apache-2.0
 repository-code: "https://github.com/cogvera-labs/akeratos"
 keywords:
@@ -18,6 +18,8 @@ keywords:
   - pretraining
   - Apple silicon
   - MLX
+  - small language models
+  - speedrun
   - unified memory
   - n-gram memory
   - open science
