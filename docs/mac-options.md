@@ -1,6 +1,6 @@
 # Training a language model on a Mac: the options
 
-Several open projects train or fine-tune language models on an Apple silicon Mac, and each is built for a different job. This page says what each one is for, so you can pick the one that fits. What it says about other projects comes from their own pages, read on 2026-10-29 (Language Model Builder and autoresearch-mlx on 2026-11-19); check them for changes.
+An Apple silicon Mac can pretrain a small language model from scratch or fine-tune an existing one. Each project below does a different job; this page says what each is for. What it says about other projects comes from their own pages, read on 2026-10-29 (Language Model Builder and autoresearch-mlx on 2026-11-19); check them for changes.
 
 | If you want to | Start with |
 |---|---|

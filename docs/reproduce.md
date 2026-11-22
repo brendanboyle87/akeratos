@@ -8,7 +8,7 @@ These commands rebuild Billet's training data, train Billet and its twin, and sc
 - About 57 GB of free disk to build the data, plus the checkpoints. The data ends as a 28.5 GB download and a 16.4 GB store.
 - [uv](https://docs.astral.sh/uv/) 0.13.6 or newer.
 
-## The runs
+## Training time and memory
 
 | Run | What it trains | Tokens | Steps' time on the M4 Max | Peak memory |
 |---|---|---|---|---|
@@ -16,7 +16,7 @@ These commands rebuild Billet's training data, train Billet and its twin, and sc
 | Its twin | the same core with the table off | 3.2B | 111.1 h | 12.4 GiB |
 | The starter | the 10M model with a table of 1.0B numbers | 75M | 41 min | 6.7 GiB |
 
-Peak memory is MLX's own peak reading from the training log, in GiB (2^30 bytes). macOS, your other programs and MLX's buffer cache need memory beside it; `bake train` caps the cache at 3.81 GiB, and at 2 GiB for the starter. [Billet and its twin](billet.md) has more on both runs.
+Peak memory is MLX's peak reading from the training log, in GiB (2^30 bytes). macOS, your other programs and MLX's buffer cache need memory beside it; `bake train` caps the cache at 3.81 GiB, and 2 GiB for the starter. [Billet and its twin](billet.md) has more on both runs.
 
 ## Your Mac
 

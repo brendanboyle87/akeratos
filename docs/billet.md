@@ -1,6 +1,6 @@
 # Billet and its twin
 
-Cogvera Labs trained one model with a large n-gram table and one without, on the same tokens, and fixed how to compare them before the second run finished. This page is that comparison.
+Cogvera Labs trained one model with a large n-gram table and one without, on the same tokens, and fixed how to compare them before the second run finished.
 
 ## What was trained
 
@@ -24,6 +24,8 @@ The code as trained ships beside each model's weights, as an unedited snapshot. 
 One amendment, on 2 November, recorded the SHA-256 of the analysis code before any Δ was computed. That code is [`analysis.py`](https://github.com/cogvera-labs/akeratos/blob/main/scripts/analysis/analysis.py), unchanged since.
 
 ## Primary readout
+
+Bits per byte is the held-out text's total loss, in bits, divided by its bytes. Lower is better, even between models with different tokenizers.
 
 | | Held-out bits per byte |
 |---|---|
@@ -64,7 +66,7 @@ The plan's learning-rate sweeps, 50M tokens at each of four rates, scored lowest
 
 ![Training loss of Billet and its twin, step by step](https://github.com/cogvera-labs/akeratos/raw/main/results/billet/training-loss.svg)
 
-Training loss at every step of both runs, from the `metrics.jsonl` each model ships with. Both bend at step 19,532, where the learning rate starts to fall.
+Both bend at step 19,532, where the learning rate starts to fall.
 
 ## What one seed cannot say
 
@@ -79,6 +81,6 @@ The amendment of 2 November names three things not yet fixed when it was posted:
 
 ## Check it
 
-- [`results/billet/`](https://github.com/cogvera-labs/akeratos/tree/main/results/billet) holds the report these numbers are read from, and the command that writes it.
+- [`results/billet/`](https://github.com/cogvera-labs/akeratos/blob/main/results/billet/README.md) holds the report these numbers are read from, and the command that writes it.
 - [Reproduce](reproduce.md) rebuilds the data, reruns both models and scores them.
 - If your number differs from this page's, open an issue. That is a finding.

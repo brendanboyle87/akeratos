@@ -1,6 +1,6 @@
 # The Mac speedrun
 
-`bake speedrun` trains `speedrun/train.py` for 300 seconds of step time on a fixed FineWeb-Edu slice, then scores its held-out bits per byte. Lower is better. Claims rank within a hardware class, laptops apart from desktops.
+The Mac speedrun is a 5-minute training race: `bake speedrun` trains `speedrun/train.py` for 300 seconds of step time on a fixed FineWeb-Edu slice, then scores its held-out bits per byte. Lower is better. Claims rank within a hardware class, laptops apart from desktops.
 
 ## Run it
 
@@ -31,4 +31,4 @@ Run seeds 0 to K − 1 under one `--claim` name, adding `--seed 1` and so on. Se
 
 ## `bake bench`
 
-`uv run bake bench` trains the 10M model on synthetic tokens twice, table off, then on, at the shape [the bench rows page](https://github.com/cogvera-labs/akeratos/blob/main/results/bench/README.md) states. It prints both step times, their ratio, peak memory and the table's estimated bandwidth. It took 74 seconds on an M4 Max. Run it on mains power. It saves its row and says where. Paste it into [the bench form](https://github.com/cogvera-labs/akeratos/issues/new?template=bench.yml), or run with `--out results/bench --person HANDLE` and send it by pull request. [The open problem on that cost](https://github.com/cogvera-labs/akeratos/blob/main/OPEN_PROBLEMS.md#the-tables-cost-on-each-mac) asks for rows from other Macs.
+`uv run bake bench` trains the 10M model on synthetic tokens twice, table off, then on, at the shape [the bench rows page](https://github.com/cogvera-labs/akeratos/blob/main/results/bench/README.md) states. It prints both step times, their ratio, peak memory and the table's estimated bandwidth. Run it on mains power. It saves its row and says where. Paste it into [the bench form](https://github.com/cogvera-labs/akeratos/issues/new?template=bench.yml), or run with `--out results/bench --person HANDLE` and send it by pull request. [The open problem on that cost](https://github.com/cogvera-labs/akeratos/blob/main/OPEN_PROBLEMS.md#the-tables-cost-on-each-mac) asks for rows from other Macs.

@@ -47,7 +47,8 @@ The table is split into *shards*, separate arrays of at most 2²⁹ (about 537 m
 
 ## What the table costs
 
-- **Memory, not compute.** Reading two rows per token is cheap; holding the table is not ([Training on a Mac](apple-silicon.md)).
-- **Shipped size.** Billet ships its table as trained, at 16 bits: 12.1 GB.
+**Memory, not compute.** Reading two rows per token is cheap; holding the table is not ([Training on a Mac](apple-silicon.md)).
 
-What the table is worth is measured, not assumed: the [open problems](https://github.com/cogvera-labs/akeratos/blob/main/OPEN_PROBLEMS.md) list what is still unanswered.
+## Does the table help?
+
+In [one comparison](../billet.md), yes: Billet scores 0.8866 held-out bits per byte, its twin without the table 0.9030. Each trained once, at equal tokens; [whether it pays at equal time](https://github.com/cogvera-labs/akeratos/blob/main/OPEN_PROBLEMS.md#does-the-table-pay-off-at-equal-wall-clock) is open.
